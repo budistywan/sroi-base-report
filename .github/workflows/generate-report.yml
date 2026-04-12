@@ -1,0 +1,113 @@
+name: Generate SROI Report
+
+on:
+  # Trigger manual dari GitHub UI
+  workflow_dispatch:
+    inputs:
+      program:
+        description: 'Kode program (ESL / PSN / dll.)'
+        required: true
+        default: 'ESL'
+        type: string
+      mode:
+        description: 'Mode pipeline'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full           # core + style + batch refinement
+          - core-only      # hanya core pipeline
+          - refine-only    # hanya batch refinement
+
+  # Trigger otomatis saat ada push ke data/canonical/
+  push:
+    paths:
+      - 'data/canonical/**.json'
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # 1. Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # 3. Install Python dependencies
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      # 4. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 5. Install Node.js dependencies
+      - name: Install Node.js dependencies
+        run: npm install
+
+      # 6. Determine program code
+      - name: Set program code
+        id: program
+        run: |
+          PROGRAM="${{ github.event.inputs.program || 'ESL' }}"
+          echo "code=${PROGRAM}" >> $GITHUB_OUTPUT
+          echo "Running pipeline for program: ${PROGRAM}"
+
+      # 7. Run production pipeline
+      - name: Run core pipeline
+        if: ${{ github.event.inputs.mode != 'refine-only' }}
+        run: |
+          python run.py \
+            --program ${{ steps.program.outputs.code }} \
+            --skip-extract
+        env:
+          PROGRAM: ${{ steps.program.outputs.code }}
+
+      # 8. Run batch refinement
+      - name: Run batch refinement
+        if: ${{ github.event.inputs.mode != 'core-only' }}
+        run: |
+          python run.py \
+            --program ${{ steps.program.outputs.code }} \
+            --only-refine
+        env:
+          PROGRAM: ${{ steps.program.outputs.code }}
+
+      # 9. Collect output files
+      - name: Collect outputs
+        run: |
+          mkdir -p artifacts
+          find . -name "*.docx" ! -path "./node_modules/*" \
+            -exec cp {} artifacts/ \;
+          find sprint14e -name "refinement_analytics_report.json" \
+            -exec cp {} artifacts/ \; 2>/dev/null || true
+          find sprint14e -name "batch_consistency_report.json" \
+            -exec cp {} artifacts/ \; 2>/dev/null || true
+          ls -lh artifacts/
+
+      # 10. Upload docx sebagai GitHub artifact (bisa didownload)
+      - name: Upload report artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sroi-report-${{ steps.program.outputs.code }}-${{ github.run_number }}
+          path: artifacts/
+          retention-days: 30
+
+      # 11. (Opsional) Commit refined report ke repo
+      # Uncomment jika ingin report tersimpan di repo:
+      # - name: Commit refined report
+      #   uses: stefanzweifel/git-auto-commit-action@v5
+      #   with:
+      #     commit_message: "Generate SROI report ${{ steps.program.outputs.code }} #${{ github.run_number }}"
+      #     file_pattern: "artifacts/*.docx"
