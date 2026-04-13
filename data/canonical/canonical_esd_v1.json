@@ -1,0 +1,520 @@
+{
+  "schema_version": "1.0",
+  "case_id": "esd_2023_2025_v1",
+  "program_identity": {
+    "program_name": "Enduro Sahabat Difabel",
+    "program_code": "ESD",
+    "company": "PT Pertamina Lubricants",
+    "program_tagline": "Penguatan kemandirian ekonomi difabel melalui pelatihan otomotif dasar, aktivasi bengkel inklusif, dan pendampingan unit usaha produktif",
+    "period_start": 2023,
+    "period_end": 2025,
+    "period_label": "2023–2025",
+    "target_group": "Kelompok bengkel difabel, operator difabel, dan ekosistem pendamping usaha inklusif pada unit program dan legacy yang terhubung dengan ESD",
+    "nodes": [
+      "Isyarat Hati",
+      "FPDB & Compac",
+      "Rusli Cuci Motor",
+      "Difabel PerDIK",
+      "Kelompok Baru 2025",
+      "SLB N4 Jakarta",
+      "Inul & Mbah Motor"
+    ]
+  },
+  "source_registry": [
+    {
+      "source_id": "tjsl_scripts_master",
+      "source_type": "internal_script_archive",
+      "title": "TJSL_Scripts — Master Script Archive",
+      "description": "Master script pptxgenjs berisi deck ESD batch 1–3, termasuk identitas program, investasi, aktivitas, monetisasi, dan ringkasan SROI.",
+      "status": "available_in_conversation"
+    },
+    {
+      "source_id": "evidence_registry",
+      "source_type": "internal_evidence_registry",
+      "title": "Evidence registry",
+      "description": "Rujukan internal untuk outcome berbasis proxy, working estimate difabel aktif, dan penguatan narasi hingga evidence batch lebih rinci ditautkan.",
+      "status": "registry_stub"
+    }
+  ],
+  "investment": [
+    {
+      "year": 2023,
+      "category": "Program ESD — Total",
+      "amount_idr": 145742286,
+      "description": "Total anggaran ESD 2023 untuk empat kelompok inti: Isyarat Hati, FPDB & Compac, Rusli Cuci Motor, dan Difabel PerDIK.",
+      "data_status": "under_confirmation"
+    },
+    {
+      "year": 2024,
+      "category": "Program ESD — Total",
+      "amount_idr": 204039200,
+      "description": "Total anggaran ESD 2024 untuk penguatan operasional empat kelompok inti yang berlanjut.",
+      "data_status": "under_confirmation"
+    },
+    {
+      "year": 2025,
+      "category": "Program ESD — Total",
+      "amount_idr": 245000000,
+      "description": "Total anggaran ESD 2025 untuk lima kelompok inti, termasuk satu kelompok baru dan penguatan keberlanjutan unit aktif.",
+      "data_status": "under_confirmation"
+    }
+  ],
+  "activities": [
+    {
+      "year": 2023,
+      "name": "Capability building dan enterprise set-up",
+      "activity_scope": [
+        "Pelatihan otomotif dasar bagi kelompok inti",
+        "Pengenalan product knowledge Enduro",
+        "Penyediaan bantuan modal awal dan alat bengkel inklusif",
+        "Pembentukan empat kelompok inti sebagai basis usaha awal"
+      ]
+    },
+    {
+      "year": 2023,
+      "name": "Market activation tahap awal",
+      "activity_scope": [
+        "Pendampingan operasional unit usaha",
+        "Aktivasi jasa servis ringan",
+        "Aktivasi penjualan oli dan pelumas",
+        "Integrasi unit legacy yang relevan ke ekosistem program untuk memperluas exposure pasar"
+      ]
+    },
+    {
+      "year": 2024,
+      "name": "Operational stabilization dan trust building",
+      "activity_scope": [
+        "Pendampingan empat kelompok inti berlanjut",
+        "Penguatan kualitas layanan dan ritme transaksi jasa serta pelumas",
+        "Penguatan legitimasi layanan bengkel difabel di mata pelanggan",
+        "Penjagaan keberlanjutan lima unit yang sudah aktif bertransaksi"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "Expansion, consolidation, dan inclusion strengthening",
+      "activity_scope": [
+        "Penambahan satu kelompok inti baru",
+        "Konsolidasi lima unit transaksi riil sebagai bukti enterprise viability",
+        "Pendampingan dua unit yang masih inkubasi/belum tercatat transaksi",
+        "Penguatan bengkel inklusif sebagai sumber livelihood dan pengakuan sosial operator difabel"
+      ]
+    }
+  ],
+  "stakeholders": [
+    {
+      "stakeholder_id": "STK_ESD_01",
+      "name": "PT Pertamina Lubricants",
+      "role": "Pemrakarsa dan penyelenggara program TJSL ESD.",
+      "involvement_type": "initiator"
+    },
+    {
+      "stakeholder_id": "STK_ESD_02",
+      "name": "Kelompok / Bengkel Difabel",
+      "role": "Penerima manfaat langsung dan unit usaha inti yang menjadi simpul utama aktivasi bengkel inklusif.",
+      "involvement_type": "direct_beneficiary"
+    },
+    {
+      "stakeholder_id": "STK_ESD_03",
+      "name": "Operator Difabel",
+      "role": "Pelaksana layanan bengkel ringan dan penerima manfaat utama dari peningkatan kemandirian ekonomi.",
+      "involvement_type": "direct_beneficiary"
+    },
+    {
+      "stakeholder_id": "STK_ESD_04",
+      "name": "Pendamping / Keluarga",
+      "role": "Pendukung mobilitas, operasional, dan keberlanjutan unit usaha inklusif.",
+      "involvement_type": "indirect_beneficiary"
+    },
+    {
+      "stakeholder_id": "STK_ESD_05",
+      "name": "Pelanggan / Komunitas Lokal",
+      "role": "Pengguna jasa servis ringan, oli, dan pelumas yang ikut menopang keberlanjutan unit usaha.",
+      "involvement_type": "ecosystem_user"
+    }
+  ],
+  "context_baseline": {
+    "problem_statement": "Hambatan utama ESD bersifat struktural: difabel tidak hanya menghadapi keterbatasan skill teknis, tetapi juga keterbatasan aset kerja, legitimasi pasar, akomodasi operasional, dan pengakuan sosial sebagai pelaku usaha yang produktif.",
+    "baseline_points": [
+      "Skill otomotif dasar pada kelompok difabel tidak otomatis berubah menjadi layanan riil tanpa alat, ruang kerja, stok awal, dan ritme operasional yang stabil.",
+      "Aksesibilitas, mobilitas, dan kebutuhan akomodasi kerja membuat transisi dari pelatihan menuju earning activity lebih berat dibandingkan pelaku usaha non-difabel.",
+      "Kepercayaan pelanggan terhadap bengkel difabel belum terbentuk secara otomatis; kualitas layanan harus dibuktikan melalui transaksi nyata, repeat customer, dan reputasi unit.",
+      "Sebagian unit dapat terkoneksi secara administratif ke program, tetapi tidak semua unit berada pada tingkat kematangan yang sama; ada unit inti, unit legacy, unit aktif bertransaksi, dan unit yang masih inkubasi.",
+      "Tanpa pendampingan usaha, skill yang telah dibangun berisiko berhenti sebagai pengalaman pelatihan, bukan berkembang menjadi livelihood pathway yang berkelanjutan."
+    ],
+    "operating_context": "ESD membangun bengkel inklusif sebagai jembatan dari disability-to-livelihood transition. Pada 2023 terdapat empat kelompok inti, enam unit terhubung program, dan lima unit transaksi riil. Pada 2025 ekosistem berkembang menjadi tujuh unit terhubung, lima unit transaksi riil, dan dua unit masih inkubasi. Ini menunjukkan bahwa keberhasilan program perlu dibaca berdasarkan tingkat aktivasi ekonomi dan legitimasi pasar, bukan semata jumlah unit yang tercatat."
+  },
+  "ideal_conditions": {
+    "desired_state": "Kelompok difabel mampu mengoperasikan bengkel inklusif yang aktif, dipercaya pelanggan, menghasilkan transaksi jasa dan pelumas secara rutin, serta memperkuat kemandirian ekonomi dan pengakuan sosial operator difabel.",
+    "ideal_points": [
+      "Pelatihan teknis terkonversi menjadi partisipasi kerja nyata di bengkel inklusif.",
+      "Unit usaha memiliki alat, stok, proses kerja, dan pendampingan yang memadai untuk bertahan secara operasional.",
+      "Pelanggan melihat bengkel difabel sebagai penyedia jasa yang kredibel, aman, dan layak dipercaya.",
+      "Operator difabel memperoleh peran ekonomi yang lebih aktif, pendapatan yang lebih stabil, dan ruang belajar usaha yang berkelanjutan.",
+      "Komunitas lokal semakin menerima difabel sebagai aktor ekonomi produktif, bukan semata penerima bantuan."
+    ],
+    "vision_statement": "Keberhasilan ESD ditandai ketika bengkel difabel tidak lagi berhenti sebagai ruang pelatihan, tetapi menjadi unit usaha inklusif yang aktif, legitimate di mata pasar, dan mengubah posisi sosial operator difabel dalam rumah tangga maupun komunitas."
+  },
+  "strategy_design": {
+    "program_philosophy": "ESD dirancang bukan sekadar sebagai program pelatihan otomotif, tetapi sebagai strategi disability-to-livelihood transition yang menggabungkan pembangunan kapabilitas, aktivasi usaha, pembentukan pasar, dan penguatan legitimasi sosial.",
+    "program_logic": "Program bekerja melalui empat jembatan perubahan: capability building (skill dasar), enterprise activation (alat dan unit usaha), market activation (transaksi jasa dan pelumas), dan ecosystem legitimacy (kepercayaan pelanggan serta pengakuan sosial). Kombinasi ini membuat operator difabel lebih mungkin bergerak dari status peserta pelatihan menuju pelaku usaha atau pekerja yang aktif secara ekonomi.",
+    "institutional": {
+      "nodes": [
+        "Isyarat Hati",
+        "FPDB & Compac",
+        "Rusli Cuci Motor",
+        "Difabel PerDIK",
+        "Kelompok Baru 2025",
+        "SLB N4 Jakarta",
+        "Inul & Mbah Motor"
+      ],
+      "note": "Node ESD perlu dibaca bertingkat: kelompok inti adalah titik intervensi utama; unit legacy memperlihatkan kesinambungan ekosistem; unit transaksi riil menunjukkan node yang telah menembus barrier pasar; sedangkan unit inkubasi menunjukkan area yang masih memerlukan legitimasi dan penguatan operasional. Storytelling terbaik muncul ketika perbedaan tingkat kematangan ini ditampilkan secara eksplisit."
+    },
+    "intervention_tracks": [
+      "Capability building melalui pelatihan otomotif dasar yang accessible bagi operator difabel",
+      "Enterprise activation melalui bantuan modal, alat, dan pembentukan bengkel inklusif",
+      "Market activation melalui jasa servis ringan, penjualan pelumas, dan rutinitas transaksi",
+      "Operational mentoring untuk menjaga ritme kerja, kualitas layanan, dan keberlanjutan unit aktif",
+      "Ecosystem legitimacy melalui pembuktian layanan, kepercayaan pelanggan, dan pengakuan difabel sebagai aktor ekonomi produktif"
+    ]
+  },
+  "problem_framing": {
+    "main_problem": "Masalah utama ESD adalah disability-to-livelihood structural exclusion: skill otomotif dasar yang dimiliki difabel belum otomatis terkonversi menjadi usaha bengkel inklusif yang aktif, dipercaya pasar, dan menopang penghidupan secara berkelanjutan.",
+    "narrative": "Bagi kelompok difabel, hambatan menuju livelihood tidak berdiri sendiri. Keterampilan teknis yang diperoleh masih harus melewati hambatan aset, aksesibilitas, market trust, dan legitimasi sosial. Karena itu, ESD tidak cukup dipahami sebagai program pelatihan; ia adalah intervensi untuk mengubah skill menjadi ruang kerja, ruang kerja menjadi transaksi, transaksi menjadi reputasi usaha, dan reputasi usaha menjadi kemandirian ekonomi serta pengakuan sosial. Dalam logika ini, indikator keberhasilan tidak hanya jumlah unit yang dibentuk, tetapi seberapa jauh unit tersebut benar-benar aktif bertransaksi, dipercaya pelanggan, dan memberi peran ekonomi yang lebih nyata bagi operator difabel.",
+    "problem_nodes": [
+      "Skill barrier: kompetensi teknis belum cukup operasional menjadi layanan riil",
+      "Asset barrier: keterbatasan alat, stok, dan ruang usaha menghambat aktivasi bengkel",
+      "Access and accommodation barrier: mobilitas dan kebutuhan dukungan kerja membatasi transisi ke earning activity",
+      "Trust barrier: pasar belum otomatis percaya pada kualitas layanan bengkel difabel",
+      "Social legitimacy barrier: difabel belum sepenuhnya dipandang sebagai aktor ekonomi produktif"
+    ]
+  },
+  "outputs": [
+    {
+      "output_id": "OUT_ESD_01",
+      "year": 2023,
+      "description": "Empat kelompok inti dibentuk sebagai basis capability building dan enterprise activation; enam unit terhubung ke ekosistem program dan lima unit mulai menunjukkan transaksi riil.",
+      "quantity": 4,
+      "unit": "kelompok inti",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_ESD_02",
+      "year": 2024,
+      "description": "Empat kelompok inti berlanjut dengan penguatan operasional, trust building, dan penjagaan ritme usaha; enam unit tetap terhubung dan lima unit mempertahankan transaksi riil.",
+      "quantity": 5,
+      "unit": "unit transaksi riil",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_ESD_03",
+      "year": 2025,
+      "description": "Satu kelompok inti baru ditambahkan sehingga ekosistem menjadi tujuh unit terhubung; lima unit menunjukkan enterprise viability melalui transaksi riil, sedangkan dua unit masih dalam tahap inkubasi.",
+      "quantity": 7,
+      "unit": "unit terhubung program",
+      "data_status": "under_confirmation"
+    }
+  ],
+  "outcomes": [
+    {
+      "outcome_id": "OC_ESD_ECO_01",
+      "name": "Transaksi jasa dan sparepart bengkel difabel meningkat",
+      "description": "Unit bengkel inklusif yang aktif mulai menangkap permintaan servis ringan dan transaksi sparepart secara lebih konsisten, sehingga layanan berubah dari latihan menjadi aktivitas ekonomi nyata.",
+      "measurement": "Nilai jasa dan sparepart per tahun pada unit transaksi riil ESD.",
+      "data_status": "observed",
+      "source_refs": [
+        "tjsl_scripts_master"
+      ]
+    },
+    {
+      "outcome_id": "OC_ESD_ECO_02",
+      "name": "Penjualan pelumas meningkat pada unit program",
+      "description": "Kelompok bengkel difabel memonetisasi product knowledge Enduro sebagai bagian dari layanan usaha, yang menandai bertambahnya market capture dan legitimasi teknis unit.",
+      "measurement": "Nilai penjualan pelumas per tahun pada unit transaksi riil ESD.",
+      "data_status": "observed",
+      "source_refs": [
+        "tjsl_scripts_master"
+      ]
+    },
+    {
+      "outcome_id": "OC_ESD_ECO_03",
+      "name": "Kapasitas usaha bengkel inklusif teraktivasi dan lebih layak beroperasi",
+      "description": "Kombinasi skill, alat, stok, dan pendampingan membuat bengkel difabel lebih siap bekerja sebagai unit produktif yang tidak hanya tercatat, tetapi juga mampu mempertahankan operasi dan transaksi.",
+      "measurement": "Proxy enterprise activation/viability per tahun.",
+      "data_status": "proxy",
+      "source_refs": [
+        "evidence_registry"
+      ]
+    },
+    {
+      "outcome_id": "OC_ESD_SOC_01",
+      "name": "Partisipasi kerja dan kemandirian ekonomi operator difabel meningkat",
+      "description": "Keterlibatan operator difabel dalam proses layanan dan usaha bengkel meningkat, sehingga mereka memperoleh peran ekonomi yang lebih nyata, pengalaman kerja yang lebih berkelanjutan, dan peluang kemandirian pendapatan.",
+      "measurement": "Proxy work participation dan economic independence per tahun.",
+      "data_status": "proxy",
+      "source_refs": [
+        "evidence_registry"
+      ]
+    },
+    {
+      "outcome_id": "OC_ESD_SOC_02",
+      "name": "Kepercayaan diri dan self-efficacy operator difabel menguat",
+      "description": "Keterlibatan aktif dalam bengkel inklusif, interaksi dengan pelanggan, dan pengalaman menghasilkan pendapatan memperkuat rasa percaya diri, keberanian mengambil peran, dan keyakinan atas kapasitas diri sebagai pelaku usaha atau pekerja.",
+      "measurement": "Qualitative social outcome; belum dimonetisasi terpisah pada canonical ini.",
+      "data_status": "proxy",
+      "source_refs": [
+        "evidence_registry"
+      ]
+    },
+    {
+      "outcome_id": "OC_ESD_SOC_03",
+      "name": "Pengakuan sosial terhadap difabel sebagai aktor ekonomi produktif meningkat",
+      "description": "Ketika unit bengkel inklusif dipercaya pelanggan dan bertransaksi secara rutin, komunitas lokal semakin melihat difabel sebagai penyedia jasa yang kredibel dan bernilai ekonomi, bukan semata penerima bantuan.",
+      "measurement": "Qualitative social inclusion outcome; belum dimonetisasi terpisah pada canonical ini.",
+      "data_status": "proxy",
+      "source_refs": [
+        "evidence_registry"
+      ]
+    }
+  ],
+  "monetization": [
+    {
+      "monetization_id": "MON_ESD_JSP_2023",
+      "aspect_id": "MON_ESD_JSP",
+      "aspect_code": "JSP",
+      "year": 2023,
+      "gross_idr": 90210000,
+      "proxy_basis": "nilai transaksi jasa dan sparepart bengkel difabel per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ESD_ECO_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_JSP_2024",
+      "aspect_id": "MON_ESD_JSP",
+      "aspect_code": "JSP",
+      "year": 2024,
+      "gross_idr": 126300000,
+      "proxy_basis": "nilai transaksi jasa dan sparepart bengkel difabel per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ESD_ECO_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_JSP_2025",
+      "aspect_id": "MON_ESD_JSP",
+      "aspect_code": "JSP",
+      "year": 2025,
+      "gross_idr": 176820000,
+      "proxy_basis": "nilai transaksi jasa dan sparepart bengkel difabel per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ESD_ECO_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_LUB_2023",
+      "aspect_id": "MON_ESD_LUB",
+      "aspect_code": "LUB",
+      "year": 2023,
+      "gross_idr": 12880000,
+      "proxy_basis": "nilai penjualan pelumas per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ESD_ECO_02",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_LUB_2024",
+      "aspect_id": "MON_ESD_LUB",
+      "aspect_code": "LUB",
+      "year": 2024,
+      "gross_idr": 18030000,
+      "proxy_basis": "nilai penjualan pelumas per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ESD_ECO_02",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_LUB_2025",
+      "aspect_id": "MON_ESD_LUB",
+      "aspect_code": "LUB",
+      "year": 2025,
+      "gross_idr": 25250000,
+      "proxy_basis": "nilai penjualan pelumas per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ESD_ECO_02",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_ENT_2023",
+      "aspect_id": "MON_ESD_ENT",
+      "aspect_code": "ENT",
+      "year": 2023,
+      "gross_idr": 120000000,
+      "proxy_basis": "proxy aktivasi kapasitas usaha bengkel inklusif per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ESD_ECO_03",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_ENT_2024",
+      "aspect_id": "MON_ESD_ENT",
+      "aspect_code": "ENT",
+      "year": 2024,
+      "gross_idr": 140000000,
+      "proxy_basis": "proxy aktivasi kapasitas usaha bengkel inklusif per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ESD_ECO_03",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_ENT_2025",
+      "aspect_id": "MON_ESD_ENT",
+      "aspect_code": "ENT",
+      "year": 2025,
+      "gross_idr": 160000000,
+      "proxy_basis": "proxy aktivasi kapasitas usaha bengkel inklusif per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ESD_ECO_03",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_JOB_2023",
+      "aspect_id": "MON_ESD_JOB",
+      "aspect_code": "JOB",
+      "year": 2023,
+      "gross_idr": 60000000,
+      "proxy_basis": "proxy operator difabel aktif dan kemandirian ekonomi per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ESD_SOC_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_JOB_2024",
+      "aspect_id": "MON_ESD_JOB",
+      "aspect_code": "JOB",
+      "year": 2024,
+      "gross_idr": 84000000,
+      "proxy_basis": "proxy operator difabel aktif dan kemandirian ekonomi per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ESD_SOC_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ESD_JOB_2025",
+      "aspect_id": "MON_ESD_JOB",
+      "aspect_code": "JOB",
+      "year": 2025,
+      "gross_idr": 96000000,
+      "proxy_basis": "proxy operator difabel aktif dan kemandirian ekonomi per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ESD_SOC_01",
+      "display_status": "present_as_final"
+    }
+  ],
+  "ddat_params": {
+    "JSP": {
+      "deadweight": 0.15,
+      "displacement": 0.05,
+      "attribution": 0.25,
+      "drop_off": 0.05,
+      "net_multiplier": 0.6068,
+      "notes": "Aspek observed dengan kebocoran nilai moderat karena sebagian transaksi dipengaruhi kapasitas unit yang sudah ada dan pilihan pelanggan.",
+      "justification": "Transaksi jasa dan sparepart merupakan manfaat ekonomi langsung yang cukup kuat, namun tetap perlu dikurangi oleh kemungkinan pembelian pengganti, kontribusi usaha eksisting, dan penurunan efek tahunan."
+    },
+    "LUB": {
+      "deadweight": 0.2,
+      "displacement": 0.05,
+      "attribution": 0.25,
+      "drop_off": 0.05,
+      "net_multiplier": 0.5415,
+      "notes": "Penjualan pelumas observed, tetapi lebih rentan terhadap deadweight dan attribution dibanding jasa servis langsung.",
+      "justification": "Sebagian penjualan pelumas mungkin tetap terjadi tanpa intervensi dan juga dipengaruhi jaringan distribusi serta preferensi pelanggan, sehingga multiplier perlu dijaga moderat."
+    },
+    "ENT": {
+      "deadweight": 0.2,
+      "displacement": 0,
+      "attribution": 0.3,
+      "drop_off": 0,
+      "net_multiplier": 0.5,
+      "notes": "Proxy aktivasi kapasitas usaha menangkap nilai saat skill, alat, dan pendampingan berubah menjadi unit usaha yang lebih siap berjalan.",
+      "justification": "Aktivasi kapasitas usaha cukup dipengaruhi program, tetapi tetap dipengaruhi kesiapan awal kelompok, pendampingan non-program, dan variasi kemampuan kewirausahaan masing-masing unit."
+    },
+    "JOB": {
+      "deadweight": 0.1,
+      "displacement": 0,
+      "attribution": 0.37,
+      "drop_off": 0,
+      "net_multiplier": 0.63,
+      "notes": "Proxy kerja digunakan untuk menangkap operator difabel aktif dan peningkatan kemandirian ekonomi.",
+      "justification": "Kemandirian operator difabel sangat terkait dengan aktivasi unit usaha, namun tetap dipengaruhi dukungan keluarga, pendamping, kondisi mobilitas, dan usaha individual operator."
+    }
+  },
+  "ori_rates": {
+    "2023": {
+      "series": "ORI023T3",
+      "rate": 0.059,
+      "compound_factor": 1.1252
+    },
+    "2024": {
+      "series": "ORI025T3",
+      "rate": 0.0625,
+      "compound_factor": 1.0625
+    },
+    "2025": {
+      "series": "ORI027T3",
+      "rate": 0.065,
+      "compound_factor": 1
+    }
+  },
+  "sroi_metrics": {
+    "status": "pending",
+    "calculated": {
+      "sroi_blended": 0,
+      "per_year": [],
+      "total_investment": 0,
+      "total_gross": 0,
+      "total_net": 0,
+      "total_net_compounded": 0
+    },
+    "note": "Dihitung otomatis oleh pipeline"
+  },
+  "coverage_status": {
+    "bab_1": "strong",
+    "bab_2": "strong",
+    "bab_3": "strong",
+    "bab_4": "strong",
+    "bab_5": "strong",
+    "bab_6": "strong",
+    "bab_7": "strong",
+    "bab_8": "strong",
+    "bab_9": "strong"
+  },
+  "learning_signals": {
+    "loop_1": [
+      "Pada ESD, skill teknis hanya menjadi titik awal; perubahan mulai terasa ketika skill segera dihubungkan dengan alat, ruang layanan, dan transaksi riil.",
+      "Bantuan modal dan pendampingan operasional berfungsi sebagai jembatan kritis antara pelatihan dengan enterprise activation pada bengkel difabel."
+    ],
+    "loop_2": [
+      "Pembedaan antara unit terhubung, unit aktif bertransaksi, dan unit inkubasi harus dipertahankan agar evaluasi tidak bias administratif dan lebih dekat dengan realitas livelihood.",
+      "Market trust adalah indikator transisi yang sangat penting: pelanggan yang mau datang dan membayar menunjukkan bahwa barrier legitimasi mulai ditembus."
+    ],
+    "loop_3": [
+      "Replikasi ESD perlu menyeimbangkan capability building, enterprise activation, market activation, dan ecosystem legitimacy; kehilangan satu elemen akan membuat chain perubahan timpang.",
+      "Story of change ESD paling kuat dibaca sebagai transformasi dari difabel sebagai peserta pelatihan menuju operator bengkel inklusif yang aktif, lebih percaya diri, dan semakin diakui sebagai aktor ekonomi produktif."
+    ]
+  },
+  "last_updated": "2026-04-13",
+  "_submit_ts": "2026-04-13T23:03:46.786Z"
+}
