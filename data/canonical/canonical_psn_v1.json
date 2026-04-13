@@ -524,7 +524,7 @@
     },
     "DOWN": {
       "deadweight": 0.15,
-      "displacement": 0,
+      "displacement": 0.0,
       "attribution": 0.2,
       "drop_off": 0.05,
       "net_multiplier": 0.6,
@@ -533,7 +533,7 @@
     },
     "MAINT": {
       "deadweight": 0.1,
-      "displacement": 0,
+      "displacement": 0.0,
       "attribution": 0.2,
       "drop_off": 0.05,
       "net_multiplier": 0.65,
@@ -564,16 +564,19 @@
     "2025": {
       "series": "ORI027T3",
       "rate": 0.065,
-      "compound_factor": 1
+      "compound_factor": 1.0
     }
   },
   "sroi_metrics": {
-    "blended_sroi": 0,
-    "sroi_2023": 0,
-    "sroi_2024": 0,
-    "sroi_2025": 0,
-    "total_investment_idr": 0,
-    "total_net_benefit_idr": 0,
+    "status": "pending",
+    "calculated": {
+      "sroi_blended": 0,
+      "per_year": [],
+      "total_investment": 0,
+      "total_gross": 0,
+      "total_net": 0,
+      "total_net_compounded": 0
+    },
     "note": "Dihitung otomatis oleh pipeline"
   },
   "coverage_status": {
@@ -728,6 +731,5 @@
       "status": "confirmed",
       "reference_value": "Rp 196.754/bulan/kapal"
     }
-  ],
-  "_submit_ts": "2026-04-13T15:47:56.463Z"
+  ]
 }
