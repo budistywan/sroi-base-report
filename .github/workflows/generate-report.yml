@@ -51,16 +51,36 @@ jobs:
         with:
           node-version: '20'
 
-
       # 5. Install Node.js dependencies
       - name: Install Node.js dependencies
         run: npm install
 
       # 6. Determine program code
+      # - Jika trigger dari push: ekstrak dari nama file canonical yang berubah
+      # - Jika trigger dari workflow_dispatch: gunakan input manual
       - name: Set program code
         id: program
         run: |
-          PROGRAM="${{ github.event.inputs.program || 'ESL' }}"
+          if [ "${{ github.event_name }}" = "push" ]; then
+            # Ambil semua file yang berubah di push ini
+            CHANGED_FILES=$(git diff-tree --no-commit-id -r --name-only ${{ github.sha }})
+            echo "Changed files: $CHANGED_FILES"
+
+            # Cari file canonical yang berubah, ekstrak kode program
+            # Format: data/canonical/canonical_{program}_v1.json
+            PROGRAM=$(echo "$CHANGED_FILES" \
+              | grep 'data/canonical/canonical_' \
+              | head -1 \
+              | sed 's|data/canonical/canonical_||' \
+              | sed 's|_v[0-9]*.json||' \
+              | tr '[:lower:]' '[:upper:]')
+
+            # Fallback ke ESL jika tidak terdeteksi
+            PROGRAM=${PROGRAM:-ESL}
+          else
+            PROGRAM="${{ github.event.inputs.program || 'ESL' }}"
+          fi
+
           echo "code=${PROGRAM}" >> $GITHUB_OUTPUT
           echo "Running pipeline for program: ${PROGRAM}"
 
