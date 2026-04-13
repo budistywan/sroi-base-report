@@ -26,7 +26,7 @@
       "Mekanik / Pengelola Bengkel"
     ],
     "total_groups": 9,
-    "estimated_beneficiaries": 198
+    "estimated_beneficiaries": 270
   },
   "source_registry": [
     {
@@ -614,31 +614,36 @@
       "stakeholder_id": "STK_PSN_01",
       "name": "PT Pertamina Lubricants",
       "role": "Pemrakarsa dan penyelenggara program TJSL",
-      "involvement_type": "funder_implementor"
+      "involvement_type": "funder_implementor",
+      "inclusion_basis": "Penerima manfaat langsung program pelatihan"
     },
     {
       "stakeholder_id": "STK_PSN_02",
       "name": "Kelompok Nelayan Mitra",
       "role": "Penerima manfaat kelembagaan dan pengelola layanan bengkel",
-      "involvement_type": "primary_beneficiary"
+      "involvement_type": "primary_beneficiary",
+      "inclusion_basis": "Penerima manfaat langsung program pelatihan"
     },
     {
       "stakeholder_id": "STK_PSN_03",
       "name": "Nelayan Anggota",
       "role": "Penerima manfaat langsung; operator kapal yang memanfaatkan pelatihan",
-      "involvement_type": "primary_beneficiary"
+      "involvement_type": "primary_beneficiary",
+      "inclusion_basis": "Penerima manfaat langsung program pelatihan"
     },
     {
       "stakeholder_id": "STK_PSN_04",
       "name": "Mekanik / Pengelola Bengkel",
       "role": "Pelaksana perawatan, jasa, dan penjualan sparepart di kelompok",
-      "involvement_type": "secondary_beneficiary"
+      "involvement_type": "secondary_beneficiary",
+      "inclusion_basis": "Penerima manfaat langsung program pelatihan"
     },
     {
       "stakeholder_id": "STK_PSN_05",
       "name": "Pelanggan / Komunitas Maritim",
       "role": "Pengguna layanan bengkel dan pelumas yang disediakan kelompok nelayan",
-      "involvement_type": "tertiary_beneficiary"
+      "involvement_type": "tertiary_beneficiary",
+      "inclusion_basis": "Penerima manfaat langsung program pelatihan"
     }
   ],
   "context_baseline": {
@@ -731,5 +736,106 @@
       "status": "confirmed",
       "reference_value": "Rp 196.754/bulan/kapal"
     }
-  ]
+  ],
+  "outputs": [
+    {
+      "output_id": "OUT_PSN_01",
+      "year": 2023,
+      "description": "Kelompok nelayan mitra SR I yang mendapat pelatihan teknis mesin kapal",
+      "quantity": 1,
+      "unit": "kelompok",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_PSN_02",
+      "year": 2023,
+      "description": "Kelompok nelayan mitra SR II yang mendapat pelatihan teknis mesin kapal",
+      "quantity": 1,
+      "unit": "kelompok",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_PSN_03",
+      "year": 2023,
+      "description": "Kelompok nelayan mitra SR IV yang mendapat pelatihan teknis mesin kapal",
+      "quantity": 1,
+      "unit": "kelompok",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_PSN_04",
+      "year": 2023,
+      "description": "Kelompok nelayan mitra SR V yang mendapat pelatihan teknis mesin kapal",
+      "quantity": 1,
+      "unit": "kelompok",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_PSN_05",
+      "year": 2023,
+      "description": "Kelompok nelayan mitra SR VI yang mendapat pelatihan teknis mesin kapal",
+      "quantity": 1,
+      "unit": "kelompok",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_PSN_06",
+      "year": 2023,
+      "description": "Kelompok nelayan mitra SR VII yang mendapat pelatihan teknis mesin kapal",
+      "quantity": 1,
+      "unit": "kelompok",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_PSN_07",
+      "year": 2023,
+      "description": "Kelompok nelayan mitra PUJ yang mendapat pelatihan teknis mesin kapal",
+      "quantity": 1,
+      "unit": "kelompok",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_PSN_08",
+      "year": 2023,
+      "description": "Kelompok nelayan mitra PUC yang mendapat pelatihan teknis mesin kapal",
+      "quantity": 1,
+      "unit": "kelompok",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_PSN_09",
+      "year": 2023,
+      "description": "Kelompok nelayan mitra PUG yang mendapat pelatihan teknis mesin kapal",
+      "quantity": 1,
+      "unit": "kelompok",
+      "data_status": "under_confirmation"
+    }
+  ],
+  "program_positioning": {
+    "tjsl_pillar": "Sosial dan Kemasyarakatan",
+    "proper_category": "Beyond Compliance — Inovasi Sosial",
+    "sdg_alignment": [
+      "SDG 8",
+      "SDG 14",
+      "SDG 1"
+    ],
+    "policy_basis": [
+      "UU No. 40 Tahun 2007 tentang Perseroan Terbatas",
+      "PP No. 47 Tahun 2012 tentang TJSL",
+      "Peraturan Menteri LHK No. 1 Tahun 2021 tentang PROPER"
+    ]
+  },
+  "beneficiaries": [
+    {
+      "group": "Nelayan anggota kelompok mitra",
+      "count_estimate": 270,
+      "description": "Nelayan yang mendapat pelatihan teknis mesin kapal dan literasi pelumasan"
+    }
+  ],
+  "validation_notes": {
+    "beneficiary_alignment": {
+      "status": "harmonized",
+      "note": "program_identity.estimated_beneficiaries diselaraskan menjadi 270 agar konsisten dengan beneficiaries[0].count_estimate"
+    }
+  }
 }
