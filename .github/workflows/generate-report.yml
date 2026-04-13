@@ -62,20 +62,16 @@ jobs:
         id: program
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then
-            # Ambil semua file yang berubah di push ini
-            CHANGED_FILES=$(git diff-tree --no-commit-id -r --name-only ${{ github.sha }})
-            echo "Changed files: $CHANGED_FILES"
+            # Baca program dari commit message UI
+            # Format commit message: "ui-v1 submit | program=ehs | requestId=..."
+            COMMIT_MSG=$(git log -1 --format="%s" ${{ github.sha }})
+            echo "Commit message: $COMMIT_MSG"
 
-            # Cari file canonical yang berubah, ekstrak kode program
-            # Format: data/canonical/canonical_{program}_v1.json
-            PROGRAM=$(echo "$CHANGED_FILES" \
-              | grep 'data/canonical/canonical_' \
-              | head -1 \
-              | sed 's|data/canonical/canonical_||' \
-              | sed 's|_v[0-9]*.json||' \
+            PROGRAM=$(echo "$COMMIT_MSG" \
+              | grep -oP '(?<=program=)[a-z]+' \
               | tr '[:lower:]' '[:upper:]')
 
-            # Fallback ke ESL jika tidak terdeteksi
+            echo "Detected program: $PROGRAM"
             PROGRAM=${PROGRAM:-ESL}
           else
             PROGRAM="${{ github.event.inputs.program || 'ESL' }}"
