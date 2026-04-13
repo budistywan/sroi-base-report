@@ -88,6 +88,12 @@ for m in canonical.get("monetization", []):
 observed_asps = [k for k, v in asp_meta.items() if v["tag"] == "observed"]
 proxy_asps    = [k for k, v in asp_meta.items() if v["tag"] == "proxy"]
 
+# has_pending — didefinisikan di sini agar bisa dipakai di semua bab
+has_pending = any(
+    i.get("data_status","") in ("under_confirmation","planned")
+    for i in canonical.get("investment",[])
+)
+
 # ── Node info ─────────────────────────────────────────────
 institutional = sd.get("institutional", {})
 nodes         = institutional.get("nodes", [])
@@ -749,11 +755,7 @@ chapters = [
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# Definisikan has_pending di luar blok investasi untuk dipakai di bab 9
-has_pending = any(
-    i.get("data_status","") in ("under_confirmation","planned")
-    for i in canonical.get("investment",[])
-)
+
 
 all_chapters = []
 for ch in chapters:
