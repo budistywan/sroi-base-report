@@ -249,8 +249,25 @@ argument_points.append({
 })
 
 # ── 7.4 Output Program ────────────────────────────────────
-act_count = len(canonical.get("activities", []))
-out_count = len(canonical.get("outputs", []))
+# Handle activities sebagai list (EHS) atau dict per tahun (PSN)
+_acts_raw = canonical.get("activities", [])
+if isinstance(_acts_raw, dict):
+    # Format dict: {"2023": [...], "2024": [...], "2025": [...]}
+    _acts_flat = []
+    for yr_key, act_list in _acts_raw.items():
+        if isinstance(act_list, list):
+            for a in act_list:
+                if isinstance(a, str):
+                    _acts_flat.append({"year": int(yr_key), "name": a, "activity_id": a})
+                elif isinstance(a, dict):
+                    _acts_flat.append({**a, "year": int(yr_key)})
+    activities_list = _acts_flat
+else:
+    activities_list = _acts_raw if isinstance(_acts_raw, list) else []
+
+act_count = len(activities_list)
+out_count = len(canonical.get("outputs", []) if isinstance(canonical.get("outputs"), list) else [])
+
 argument_points.append({
     "label": "7.4",
     "point": (
@@ -260,8 +277,8 @@ argument_points.append({
     "elaboration": (
         "Aktivitas mencakup: "
         + "; ".join(
-            a.get("name", a.get("activity_id", ""))
-            for a in canonical.get("activities", [])[:3]
+            a.get("name", a.get("activity_id", str(a)))[:60]
+            for a in activities_list[:3]
         )
         + ("..." if act_count > 3 else ".")
     ),
