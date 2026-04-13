@@ -1,10 +1,10 @@
 """
-Point Builder — Sprint 3
+Point Builder — Sprint 3 (v2.0 — Dynamic)
 SROI Report System
 
 Sub-mode: builder_sroi (Bab 7 — Implementasi / PDIS dengan SROI)
 
-Input  : canonical_esl_v1.json + handoff_b.json + handoff_c.json
+Input  : canonical_{program}_v1.json + handoff_b.json + handoff_c.json
 Output : chapter_outline_bab7.json (Handoff D ke Narrative Builder)
 
 Prinsip:
@@ -12,6 +12,7 @@ Prinsip:
   - Point Builder menyusun LOGIKA ARGUMENTASI per bab
   - Setiap poin harus punya evidence_refs yang traceable ke canonical JSON
   - Angka hanya boleh diambil dari sroi_metrics.calculated via calc_audit_log
+  - v2.0: semua referensi program dibaca dari canonical — tidak ada hardcode ESL
 
 Usage:
   python point_builder_sroi.py
@@ -26,10 +27,10 @@ import argparse
 from pathlib import Path
 from datetime import datetime
 
-BUILDER_VERSION = "1.0.0"
+BUILDER_VERSION = "2.0.0"
 
 # ── PATH CONFIG ──────────────────────────────────────────
-parser = argparse.ArgumentParser(description="Point Builder — builder_sroi")
+parser = argparse.ArgumentParser(description="Point Builder — builder_sroi (dynamic)")
 parser.add_argument("--canonical",  default=None)
 parser.add_argument("--handoff-b",  default=None, dest="handoff_b")
 parser.add_argument("--handoff-c",  default=None, dest="handoff_c")
@@ -63,19 +64,25 @@ calc       = handoff_b["sroi_metrics"]["calculated"]
 blueprint  = handoff_c["report_blueprint_json"]
 audit_log  = {e["field"]: e for e in handoff_b["calc_audit_log"]}
 
-# ── HELPER: ambil angka dari audit log ───────────────────
+# ── IDENTITAS PROGRAM (dari canonical) ───────────────────
+prog_identity = canonical.get("program_identity", {})
+PROGRAM_CODE  = prog_identity.get("program_code", "UNKNOWN")
+PROGRAM_NAME  = prog_identity.get("program_name", PROGRAM_CODE)
+PERIOD_LABEL  = prog_identity.get("period_label", "2023–2025")
+
+print(f"\nProgram   : {PROGRAM_CODE} — {PROGRAM_NAME}")
+print(f"Periode   : {PERIOD_LABEL}")
+
+# ── HELPER ───────────────────────────────────────────────
 def from_audit(field):
-    """Ambil nilai dari calc_audit_log. Raise jika tidak ada — angka harus traceable."""
     if field not in audit_log:
         raise KeyError(f"Field '{field}' tidak ada di calc_audit_log — angka tidak traceable")
     return audit_log[field]["value"]
 
 def fmt_idr(value):
-    """Format angka ke Rp dengan titik ribuan."""
     return f"Rp {value:,.0f}"
 
 def fmt_ratio(value):
-    """Format SROI ratio ke 1:X,XX."""
     return f"1 : {value:.2f}"
 
 # ── VERIFY: Bab 7 ada dan strong ─────────────────────────
@@ -94,7 +101,9 @@ print(f"builder_mode : {bab7_blueprint['builder_mode']}")
 print(f"report_mode  : {blueprint['report_mode']}")
 
 # ── EXTRACT DATA DARI CANONICAL ───────────────────────────
-years = [2023, 2024, 2025]
+years = sorted(set(
+    item["year"] for item in canonical.get("investment", [])
+)) or [2023, 2024, 2025]
 
 # Investasi per tahun
 inv_by_year = {}
@@ -102,7 +111,7 @@ for item in canonical["investment"]:
     yr = item["year"]
     inv_by_year[yr] = inv_by_year.get(yr, 0) + item["amount_idr"]
 
-# Monetisasi per aspek per tahun
+# Monetisasi per aspek per tahun — dibaca dinamis dari canonical
 mon_by_aspect = {}
 for m in canonical["monetization"]:
     asp = m["aspect_code"]
@@ -127,11 +136,53 @@ ori = canonical["ori_rates"]
 # SROI per tahun dari calc
 per_year = {row["year"]: row for row in calc["per_year"]}
 
-# Financial tables — ambil table_id list
+# Financial tables
 table_ids = [t["table_id"] for t in handoff_b["financial_tables"]]
 
+# ── BUILD asp_info DINAMIS dari canonical ─────────────────
+# Klasifikasi observed vs proxy berdasarkan measurement_type di monetization
+asp_info = {}
+seen = []
+for m in canonical["monetization"]:
+    asp = m["aspect_code"]
+    if asp in seen:
+        continue
+    seen.append(asp)
+    mtype = m.get("measurement_type", "proxy")
+    # Nama aspek: cari di monetization field aspect_name atau aspect_id
+    asp_name = m.get("aspect_name", asp)
+    # Fallback: cari di outcomes jika ada related_outcome_id
+    if not asp_name or asp_name == asp:
+        related = m.get("related_outcome_id", "")
+        outcome = next(
+            (o for o in canonical.get("outcomes", []) if o.get("outcome_id") == related),
+            None
+        )
+        if outcome:
+            asp_name = outcome.get("name", asp)
+    asp_info[asp] = {
+        "name": asp_name,
+        "tag":  "observed" if mtype == "observed" else "proxy"
+    }
+
+observed_asps = [k for k, v in asp_info.items() if v["tag"] == "observed"]
+proxy_asps    = [k for k, v in asp_info.items() if v["tag"] == "proxy"]
+
+print(f"\nAspek ditemukan: {list(asp_info.keys())}")
+print(f"  Observed : {observed_asps}")
+print(f"  Proxy    : {proxy_asps}")
+
+# ── NODE INFO dari canonical ──────────────────────────────
+institutional = canonical.get("strategy_design", {}).get("institutional", {})
+nodes         = institutional.get("nodes", [])
+active_note   = institutional.get("note", "")
+
+# ── UNCERTAINTY FLAGS (untuk temuan kritis) ───────────────
+uncertainty_flags = canonical.get("uncertainty_flags", [])
+high_flags = [f for f in uncertainty_flags if f.get("severity") == "high"]
+
 # ══════════════════════════════════════════════════════════
-# SUSUN OUTLINE BAB 7
+# SUSUN OUTLINE BAB 7 — DINAMIS
 # ══════════════════════════════════════════════════════════
 
 print("\n--- Menyusun argument points Bab 7 ---")
@@ -139,21 +190,17 @@ print("\n--- Menyusun argument points Bab 7 ---")
 argument_points = []
 
 # ── 7.1 Node Program ─────────────────────────────────────
-institutional = canonical.get("strategy_design", {}).get("institutional", {})
-nodes = institutional.get("nodes", [])
-active_note = institutional.get("note", "")
 argument_points.append({
     "label": "7.1",
     "point": (
-        f"Program beroperasi di {len(nodes)} node dengan karakteristik dan tingkat "
-        f"aktivitas berbeda — {len(nodes)-1} node aktif menghasilkan transaksi terukur "
-        f"dan 1 node dalam fase pembentukan kapasitas."
+        f"Program {PROGRAM_CODE} beroperasi di {len(nodes)} node "
+        f"yang tersebar secara nasional."
     ),
     "elaboration": (
-        f"Node: {', '.join(nodes)}. "
-        f"Catatan: {active_note}. "
-        "Narasi harus menjelaskan peran berbeda tiap node dan mengapa Lapas Palembang "
-        "belum menghasilkan transaksi — ini temuan jujur, bukan kelemahan yang disembunyikan."
+        f"Node aktif: {', '.join(nodes)}. "
+        f"{active_note} "
+        "Narasi harus menjelaskan peran berbeda tiap node dan distribusi "
+        "aktivitas program secara geografis."
     ),
     "evidence_refs": ["strategy_design.institutional", "outputs"],
     "status": "supported"
@@ -165,8 +212,8 @@ stk_names = [s["name"] for s in canonical["stakeholders"]]
 argument_points.append({
     "label": "7.2",
     "point": (
-        f"Program melibatkan {stk_count} pemangku kepentingan utama dengan peran "
-        "yang berbeda dalam ekosistem program."
+        f"Program melibatkan {stk_count} pemangku kepentingan utama "
+        "dengan peran yang berbeda dalam ekosistem program."
     ),
     "elaboration": f"Stakeholder: {', '.join(stk_names)}.",
     "evidence_refs": ["stakeholders"],
@@ -174,86 +221,98 @@ argument_points.append({
 })
 
 # ── 7.3 Investasi ─────────────────────────────────────────
-total_inv = from_audit("total_investment")
+total_inv    = from_audit("total_investment")
 inv_statuses = set(i["data_status"] for i in canonical["investment"])
 has_pending  = "under_confirmation" in inv_statuses
+
+inv_per_year_str = ", ".join(
+    f"{yr} {fmt_idr(from_audit(f'investment_total_{yr}'))}"
+    for yr in years if f"investment_total_{yr}" in audit_log
+)
 
 argument_points.append({
     "label": "7.3",
     "point": (
-        f"Total investasi program 2023–2025 mencapai {fmt_idr(total_inv)}, "
+        f"Total investasi program {PERIOD_LABEL} mencapai {fmt_idr(total_inv)}, "
         "meningkat setiap tahun seiring penguatan aktivitas program."
     ),
     "elaboration": (
-        f"Per tahun: "
-        f"2023 {fmt_idr(from_audit('investment_total_2023'))}, "
-        f"2024 {fmt_idr(from_audit('investment_total_2024'))}, "
-        f"2025 {fmt_idr(from_audit('investment_total_2025'))}. "
-        + ("Investasi 2023–2024 berstatus under_confirmation — "
-           "ditampilkan dengan badge pending, perlu diverifikasi dari laporan keuangan resmi."
+        f"Per tahun: {inv_per_year_str}. "
+        + ("Sebagian investasi berstatus under_confirmation — "
+           "perlu diverifikasi dari laporan keuangan resmi."
            if has_pending else "")
     ),
     "evidence_refs": ["investment"],
     "financial_ref": "table_investment_per_node",
     "status": "supported",
-    "note": "Investasi 2023–2024 under_confirmation — display_status present_as_pending" if has_pending else ""
+    "note": "Sebagian investasi under_confirmation — display_status present_as_pending" if has_pending else ""
 })
 
 # ── 7.4 Output Program ────────────────────────────────────
-act_count = len(canonical["activities"])
+act_count = len(canonical.get("activities", []))
+out_count = len(canonical.get("outputs", []))
 argument_points.append({
     "label": "7.4",
     "point": (
-        f"Program menghasilkan output berupa {act_count} aktivitas terstruktur "
-        "yang mencakup pelatihan teknis, product knowledge, praktik bengkel, "
-        "pembinaan kewirausahaan, dan pendampingan unit usaha."
+        f"Program menghasilkan {act_count} aktivitas terstruktur "
+        f"dengan {out_count} output terukur sepanjang {PERIOD_LABEL}."
+    ),
+    "elaboration": (
+        "Aktivitas mencakup: "
+        + "; ".join(
+            a.get("name", a.get("activity_id", ""))
+            for a in canonical.get("activities", [])[:3]
+        )
+        + ("..." if act_count > 3 else ".")
     ),
     "evidence_refs": ["activities", "outputs"],
     "status": "supported"
 })
 
-# ── 7.5 Outcome & 4 Aspek Nilai ───────────────────────────
-asp_info = {
-    "LUB":   {"name": "Penjualan Pelumas",             "tag": "observed"},
-    "SVC":   {"name": "Jasa & Sparepart",               "tag": "observed"},
-    "REINT": {"name": "Kesiapan Reintegrasi",           "tag": "proxy"},
-    "CONF":  {"name": "Kepercayaan Diri / Self-Efficacy","tag": "proxy"},
-}
+# ── 7.5 Outcome & Aspek Nilai (dinamis) ───────────────────
+total_observed = len(observed_asps)
+total_proxy    = len(proxy_asps)
+
+point_75 = f"Program menghasilkan {len(asp_info)} aspek nilai terukur"
+if total_observed > 0 and total_proxy > 0:
+    point_75 += (
+        f": {total_observed} aspek observed "
+        f"({', '.join(observed_asps)} dari transaksi aktual) "
+        f"dan {total_proxy} aspek proxy yang tervalidasi "
+        f"({', '.join(proxy_asps)})."
+    )
+elif total_observed > 0:
+    point_75 += f": semua aspek observed ({', '.join(observed_asps)})."
+else:
+    point_75 += f": semua aspek proxy ({', '.join(proxy_asps)})."
 
 argument_points.append({
     "label": "7.5",
-    "point": (
-        "Program menghasilkan empat aspek nilai terukur: dua aspek observed "
-        "(LUB dan SVC dari transaksi aktual) dan dua aspek proxy yang tervalidasi "
-        "secara akademik dan kebijakan (REINT dan CONF)."
-    ),
+    "point": point_75,
     "evidence_refs": ["outcomes", "monetization"],
     "financial_ref": "table_monetization_per_aspek",
     "status": "supported"
 })
 
-# Sub-poin per aspek
-for asp_code, info in asp_info.items():
-    mon_data = mon_by_aspect.get(asp_code, {})
+# Sub-poin per aspek — dinamis dari asp_info
+for idx, (asp_code, info) in enumerate(asp_info.items(), 1):
+    mon_data    = mon_by_aspect.get(asp_code, {})
     gross_total = sum(v["gross"] for v in mon_data.values())
-    mult = ddat[asp_code]["net_multiplier"]
-    net_total = gross_total * mult
+    mult        = ddat.get(asp_code, {}).get("net_multiplier", 1.0)
+    net_total   = gross_total * mult
+    justif      = ddat.get(asp_code, {}).get("justification", "—")
 
     if info["tag"] == "proxy":
-        sample = mon_data.get(2023, {})
-        proxy_detail = (
-            f"Proxy: {sample.get('proxy_basis','—')}. "
-            f"Basis kalkulasi: {sample.get('quantity_basis','—')} per tahun."
-        )
-        justification = ddat[asp_code]["justification"]
-        elaboration = f"{proxy_detail} Justifikasi DDAT: {justification}"
-        note = f"Proxy — display_status present_as_proxy. Wajib disertai badge dan source_refs."
+        sample       = mon_data.get(years[0], {})
+        proxy_detail = f"Proxy: {sample.get('proxy_basis', '—')}."
+        elaboration  = f"{proxy_detail} Justifikasi DDAT: {justif}"
+        note         = "Proxy — display_status present_as_proxy. Wajib disertai badge dan source_refs."
     else:
-        elaboration = f"Data transaksi aktual dari tiga node aktif. Justifikasi DDAT: {ddat[asp_code]['justification']}"
-        note = ""
+        elaboration = f"Data transaksi aktual. Justifikasi DDAT: {justif}"
+        note        = ""
 
     argument_points.append({
-        "label": f"7.5.{list(asp_info.keys()).index(asp_code)+1}",
+        "label": f"7.5.{idx}",
         "point": (
             f"{asp_code} — {info['name']} ({info['tag']}): "
             f"gross kumulatif {fmt_idr(gross_total)}, "
@@ -272,6 +331,13 @@ for asp_code, info in asp_info.items():
 
 # ── 7.6 Fiksasi Dampak (DDAT) ─────────────────────────────
 avg_fiksasi = calc["avg_fiksasi_pct"]
+
+# Buat ringkasan DDAT per aspek secara dinamis
+ddat_summary = " · ".join(
+    f"{asp} ×{ddat[asp]['net_multiplier']:.2f} ({round((1-ddat[asp]['net_multiplier'])*100)}% haircut)"
+    for asp in asp_info if asp in ddat
+)
+
 argument_points.append({
     "label": "7.6",
     "point": (
@@ -279,11 +345,8 @@ argument_points.append({
         f"rata-rata {avg_fiksasi:.1f}%, mencerminkan konservatisme metodologis yang konsisten."
     ),
     "elaboration": (
-        "DDAT = Deadweight + Displacement + Attribution + Drop-off. "
-        "LUB ×0,54 (46% haircut) · SVC ×0,61 (39% haircut) · "
-        "REINT ×0,55 (45% haircut) · CONF ×0,50 (50% haircut). "
-        "CONF mendapat haircut tertinggi karena perubahan self-efficacy sulit "
-        "diatribusikan penuh ke program."
+        f"DDAT = Deadweight + Displacement + Attribution + Drop-off. "
+        f"{ddat_summary}."
     ),
     "evidence_refs": ["ddat_params"],
     "financial_ref": "table_ddat_per_aspek",
@@ -291,30 +354,36 @@ argument_points.append({
 })
 
 # ── 7.7 Compound & ORI ────────────────────────────────────
+ori_lines = []
+for yr in years:
+    if f"net_compounded_{yr}" in audit_log:
+        ori_data = ori.get(str(yr), {})
+        cf       = ori_data.get("compound_factor", 1.0)
+        series   = ori_data.get("series", f"ORI{str(yr)[2:]}")
+        rate     = ori_data.get("rate", 0)
+        ori_lines.append(
+            f"{yr}: ×{cf} ({series}, {rate*100:.2f}%) → {fmt_idr(from_audit(f'net_compounded_{yr}'))}"
+        )
+
 argument_points.append({
     "label": "7.7",
     "point": (
-        "Nilai bersih setiap tahun di-compound ke terminal year 2025 menggunakan "
+        "Nilai bersih setiap tahun di-compound ke terminal year menggunakan "
         "ORI reference rate, untuk mencerminkan nilai waktu uang secara konservatif."
     ),
-    "elaboration": (
-        "2023: ×1,1252 (ORI023T3, 5,90%) → "
-        f"{fmt_idr(from_audit('net_compounded_2023'))}. "
-        "2024: ×1,0625 (ORI025T3, 6,25%) → "
-        f"{fmt_idr(from_audit('net_compounded_2024'))}. "
-        "2025: ×1,0000 (terminal year) → "
-        f"{fmt_idr(from_audit('net_compounded_2025'))}."
-    ),
+    "elaboration": ". ".join(ori_lines) + ".",
     "evidence_refs": ["ori_rates"],
     "financial_ref": "table_sroi_per_tahun",
     "status": "supported"
 })
 
 # ── 7.8 SROI per Tahun ────────────────────────────────────
-for yr in years:
+for idx, yr in enumerate(years, 1):
+    if yr not in per_year:
+        continue
     row = per_year[yr]
     argument_points.append({
-        "label": f"7.8.{years.index(yr)+1}",
+        "label": f"7.8.{idx}",
         "point": (
             f"Tahun {yr}: investasi {fmt_idr(row['investment'])}, "
             f"net compounded {fmt_idr(row['compounded'])}, "
@@ -331,60 +400,70 @@ for yr in years:
     })
 
 # ── 7.9 SROI Blended ──────────────────────────────────────
-total_inv_val   = from_audit("total_investment")
-total_net_comp  = from_audit("total_net_compounded")
-sroi_blended    = from_audit("sroi_blended")
+total_inv_val  = from_audit("total_investment")
+total_net_comp = from_audit("total_net_compounded")
+sroi_blended   = from_audit("sroi_blended")
+
+# Buat catatan transparansi aspek proxy jika ada
+proxy_note = ""
+if proxy_asps:
+    proxy_note = (
+        f" Catatan: aspek {', '.join(proxy_asps)} adalah proxy — "
+        "jika hanya aspek observed, SROI akan berbeda. "
+        "Transparansi ini penting untuk kredibilitas laporan."
+    )
 
 argument_points.append({
     "label": "7.9",
     "point": (
-        f"SROI blended 2023–2025: {fmt_ratio(sroi_blended)} — "
+        f"SROI blended {PERIOD_LABEL}: {fmt_ratio(sroi_blended)} — "
         f"dari investasi {fmt_idr(total_inv_val)} menghasilkan "
         f"net benefit compounded {fmt_idr(total_net_comp)}."
     ),
     "elaboration": (
-        "Setiap Rp 1 yang diinvestasikan menghasilkan Rp 1,14 nilai sosial-ekonomi terukur. "
-        "Program dinyatakan positive return. "
-        "Catatan: REINT dan CONF adalah proxy — jika hanya LUB+SVC (observed), "
-        "SROI akan jauh lebih rendah. Transparansi ini penting untuk kredibilitas laporan."
+        f"Setiap Rp 1 yang diinvestasikan menghasilkan nilai sosial-ekonomi terukur "
+        f"senilai Rp {sroi_blended:.2f}. Program dinyatakan positive return."
+        + proxy_note
     ),
     "evidence_refs": ["sroi_metrics.calculated"],
     "financial_ref": "table_sroi_blended",
     "status": "supported"
 })
 
-# ── 7.10 Temuan Kritis: Lapas Palembang ───────────────────
-argument_points.append({
-    "label": "7.10",
-    "point": (
-        "Node Lapas Palembang belum menghasilkan transaksi terukur selama "
-        "2023–2025 — ini adalah temuan jujur yang justru memperkuat "
-        "kredibilitas laporan dan memberi dasar rekomendasi konkret."
-    ),
-    "elaboration": (
-        "Jika Lapas Palembang dapat diaktivasi pada periode berikutnya, "
-        "SROI berpotensi meningkat signifikan tanpa investasi tambahan yang proporsional. "
-        "Narasi harus menempatkan ini sebagai learning finding, bukan kegagalan."
-    ),
-    "evidence_refs": ["strategy_design.institutional", "uncertainty_flags"],
-    "status": "supported"
-})
-
-# ── 7.11 Milenial Motor sebagai Proof-of-Concept ──────────
-argument_points.append({
-    "label": "7.11",
-    "point": (
-        "Node Milenial Motor (eks-WBP) adalah bukti terkuat bahwa program "
-        "dapat menghasilkan reintegrasi produktif nyata pasca-pembebasan."
-    ),
-    "elaboration": (
-        "Node ini membuktikan bahwa jalur Lapas → pelatihan → usaha mandiri "
-        "adalah jalur yang viable, bukan sekadar aspirasi program. "
-        "Posisikan sebagai model replikasi untuk node lapas lain."
-    ),
-    "evidence_refs": ["EV_06", "strategy_design.institutional"],
-    "status": "supported"
-})
+# ── 7.10 Temuan Kritis — dari uncertainty_flags ───────────
+# Dinamis: ambil high-severity flags sebagai temuan kritis
+if high_flags:
+    for idx, flag in enumerate(high_flags, 1):
+        argument_points.append({
+            "label": f"7.10.{idx}",
+            "point": (
+                f"Temuan kritis: {flag.get('description', flag.get('field', '—'))} "
+                "— ini adalah catatan metodologis yang justru memperkuat "
+                "kredibilitas laporan."
+            ),
+            "elaboration": (
+                f"Field terdampak: {flag.get('field', '—')}. "
+                "Narasi harus menempatkan ini sebagai learning finding "
+                "dengan rekomendasi konkret untuk periode berikutnya."
+            ),
+            "evidence_refs": ["uncertainty_flags"],
+            "status": "supported"
+        })
+else:
+    # Fallback jika tidak ada high flags
+    argument_points.append({
+        "label": "7.10",
+        "point": (
+            f"Program {PROGRAM_CODE} telah berhasil mendokumentasikan "
+            "seluruh aspek nilai dengan tingkat kepercayaan yang memadai."
+        ),
+        "elaboration": (
+            "Tidak ada temuan kritis yang memerlukan catatan khusus. "
+            "Semua aspek monetisasi terdokumentasi dengan justifikasi DDAT yang defensible."
+        ),
+        "evidence_refs": ["uncertainty_flags", "evidence_registry"],
+        "status": "supported"
+    })
 
 print(f"  {len(argument_points)} argument points disusun")
 
@@ -393,22 +472,41 @@ print(f"  {len(argument_points)} argument points disusun")
 # COMPOSE OUTLINE BAB 7
 # ══════════════════════════════════════════════════════════
 
+# Narrative notes dinamis
+proxy_narrative = ""
+if proxy_asps:
+    proxy_narrative = (
+        f"(2) Aspek {', '.join(proxy_asps)} wajib disertai badge proxy dan source_refs. "
+    )
+
+pending_narrative = ""
+if has_pending:
+    pending_narrative = (
+        "(3) Sebagian investasi berstatus under_confirmation — "
+        "tampilkan dengan callout_warning atau badge pending. "
+    )
+
 outline_bab7 = {
     "chapter_id":    "bab_7",
     "chapter_title": "Implementasi / PDIS dengan SROI",
     "builder_mode":  "sroi",
     "coverage_status": "strong",
+    "program_code":  PROGRAM_CODE,
+    "program_name":  PROGRAM_NAME,
 
     "purpose": (
-        "Menyajikan seluruh rangkaian implementasi program secara terukur — "
+        f"Menyajikan seluruh rangkaian implementasi program {PROGRAM_CODE} secara terukur — "
         "dari aktivitas, stakeholder, investasi, dan output hingga outcome, "
         "fiksasi dampak, monetisasi, dan hasil SROI evaluatif."
     ),
 
     "core_claim": (
-        f"Program ESL menghasilkan SROI blended {fmt_ratio(sroi_blended)} — "
-        "positive return yang dicapai melalui kombinasi transaksi bengkel riil (observed) "
-        "dan nilai reintegrasi sosial-ekonomi yang terproksikan secara konservatif dan defensible."
+        f"Program {PROGRAM_CODE} — {PROGRAM_NAME} menghasilkan "
+        f"SROI blended {fmt_ratio(sroi_blended)} — "
+        "positive return yang dicapai melalui kombinasi aspek nilai terukur "
+        f"({', '.join(observed_asps) or 'observed'}) "
+        + (f"dan nilai terproksikan ({', '.join(proxy_asps)}) " if proxy_asps else "")
+        + "secara konservatif dan defensible."
     ),
     "core_claim_ref": "sroi_metrics.calculated",
 
@@ -422,12 +520,10 @@ outline_bab7 = {
         "PENTING untuk Narrative Builder: "
         "(1) Semua angka HARUS diambil dari sroi_metrics.calculated — "
         "jangan hitung ulang atau bulatkan secara mandiri. "
-        "(2) Aspek REINT dan CONF wajib disertai badge proxy dan source_refs. "
-        "(3) Lapas Palembang yang belum bertransaksi adalah temuan jujur — "
-        "jangan dihilangkan atau disamarkan. "
-        "(4) Investasi 2023–2024 berstatus under_confirmation — "
-        "tampilkan dengan callout_warning atau badge pending. "
-        "(5) Milenial Motor adalah proof-of-concept — posisikan sebagai highlight positif."
+        + proxy_narrative
+        + pending_narrative
+        + f"Laporan ini untuk program {PROGRAM_CODE}, bukan ESL — "
+        "pastikan tidak ada referensi program lain yang bocor ke narasi."
     ),
 
     "generated_at":      datetime.now().isoformat(),
@@ -438,20 +534,18 @@ outline_bab7 = {
 
 
 # ══════════════════════════════════════════════════════════
-# VALIDATE SEBELUM SIMPAN (Gate Sprint 3 rule 1–4)
+# VALIDATE SEBELUM SIMPAN
 # ══════════════════════════════════════════════════════════
 
 print("\n--- Pre-save validation ---")
 errors = []
 
-# Rule 1: semua evidence_refs harus traceable
 valid_refs = set(canonical.keys()) | {
     f"sroi_metrics.calculated.per_year[{yr}]" for yr in years
 } | {
-    f"sroi_metrics.calculated",
-    f"strategy_design.institutional",
-    f"strategy_design.institutional",
-} | {e["evidence_id"] for e in canonical.get("evidence_registry",[])} \
+    "sroi_metrics.calculated",
+    "strategy_design.institutional",
+} | {e["evidence_id"] for e in canonical.get("evidence_registry", [])} \
   | {f"monetization[aspect={asp}]" for asp in asp_info} \
   | {f"ddat_params.{asp}" for asp in ddat} \
   | {"evidence_registry", "uncertainty_flags", "outputs", "outcomes",
@@ -460,36 +554,30 @@ valid_refs = set(canonical.keys()) | {
 
 for ap in argument_points:
     for ref in ap.get("evidence_refs", []):
-        # Cek apakah ref ada di valid_refs atau merupakan prefix yang valid
         ref_base = ref.split(".")[0].split("[")[0]
         if ref not in valid_refs and ref_base not in valid_refs:
             errors.append(f"  WARN: evidence_ref tidak dikenal: '{ref}' di point {ap['label']}")
 
-# Rule 2: supported tidak boleh punya evidence_refs kosong
 for ap in argument_points:
     if ap["status"] == "supported" and not ap.get("evidence_refs"):
         errors.append(f"  FAIL: Point {ap['label']} supported tapi evidence_refs kosong")
 
-# Rule 3: known_gaps harus kosong (bab_7 coverage strong)
 if outline_bab7["known_gaps"]:
     errors.append("  FAIL: known_gaps tidak boleh berisi jika coverage strong")
 
-# Rule 4: core_claim_ref harus ada di canonical
 core_ref = outline_bab7["core_claim_ref"].split(".")[0]
 if core_ref not in canonical:
     errors.append(f"  FAIL: core_claim_ref '{core_ref}' tidak ada di canonical")
 else:
     print(f"  PASS: core_claim_ref '{core_ref}' ditemukan di canonical")
 
-# Rule 5 (tambahan dari Orchestrator): poin pending/inferred harus punya note
 for ap in argument_points:
-    if ap["status"] in ["pending","inferred"] and not ap.get("note","").strip():
+    if ap["status"] in ["pending", "inferred"] and not ap.get("note", "").strip():
         errors.append(f"  FAIL: Point {ap['label']} status={ap['status']} tapi note kosong")
 
 if errors:
     for e in errors:
         print(e)
-    # WARN tidak blocking tapi FAIL adalah blocking
     fail_count = sum(1 for e in errors if "FAIL" in e)
     if fail_count > 0:
         print(f"\n{fail_count} validation error — outline tidak disimpan")
@@ -514,9 +602,11 @@ print(f"\nOutput: {outline_path}")
 # ── Human-readable preview ───────────────────────────────
 print("\n" + "="*65)
 print(f"POINT BUILDER OUTPUT — {outline_bab7['chapter_id']}")
+print(f"Program : {PROGRAM_CODE} — {PROGRAM_NAME}")
 print(f"Mode    : {outline_bab7['builder_mode']}")
 print(f"Coverage: {outline_bab7['coverage_status']}")
 print(f"Points  : {len(argument_points)}")
+print(f"Aspek   : {list(asp_info.keys())} ({len(observed_asps)} observed, {len(proxy_asps)} proxy)")
 print(f"Fin.refs: {len(table_ids)}")
 print("-"*65)
 print(f"Core claim: {outline_bab7['core_claim'][:80]}...")
