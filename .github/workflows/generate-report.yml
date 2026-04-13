@@ -89,11 +89,19 @@ jobs:
         if: ${{ github.event.inputs.mode != 'refine-only' }}
         run: |
           PROG=$(echo "${{ steps.program.outputs.code }}" | tr '[:upper:]' '[:lower:]')
-          WORK_DIR="output/${{ steps.program.outputs.code }}/work"
+          CODE="${{ steps.program.outputs.code }}"
+          # Orchestrator mencari di output/{PROGRAM}/work/canonical_{program}.json
+          WORK_DIR="output/${CODE}/work"
           mkdir -p "$WORK_DIR"
-          # Copy canonical ke work dir agar orchestrator bisa menemukannya
-          cp "data/canonical/canonical_${PROG}_v1.json" "$WORK_DIR/canonical_${PROG}.json"
-          echo "Copied canonical to: $WORK_DIR/canonical_${PROG}.json"
+          SRC="data/canonical/canonical_${PROG}_v1.json"
+          DST="$WORK_DIR/canonical_${PROG}.json"
+          if [ -f "$SRC" ]; then
+            cp "$SRC" "$DST"
+            echo "Canonical copied: $SRC → $DST"
+          else
+            echo "ERROR: canonical tidak ditemukan di $SRC"
+            exit 1
+          fi
           python run.py \
             --program ${{ steps.program.outputs.code }} \
             --skip-extract
