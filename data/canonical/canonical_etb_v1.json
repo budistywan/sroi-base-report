@@ -1,0 +1,572 @@
+{
+  "schema_version": "1.0",
+  "case_id": "etb_2023_2025_v1",
+  "program_identity": {
+    "program_name": "Enduro Tapal Batas",
+    "program_code": "ETB",
+    "company": "PT Pertamina Lubricants",
+    "program_tagline": "Penguatan kesejahteraan, kewirausahaan, dan daya saing UMKM bengkel di wilayah perbatasan Indonesia dan daerah 3T",
+    "period_start": 2023,
+    "period_end": 2025,
+    "period_label": "2023–2025",
+    "target_group": "UMKM bengkel frontier, mekanik/pelaku usaha bengkel, dan rumah tangga pelaku usaha di Sales Region VI Nunukan",
+    "nodes": [
+      "Sales Region VI — Nunukan",
+      "Aqila Motor",
+      "Faris Bengkel"
+    ]
+  },
+  "source_registry": [
+    {
+      "source_id": "tjsl_scripts_master",
+      "source_type": "internal_script_archive",
+      "title": "TJSL_Scripts — Master Script Archive",
+      "description": "Master script pptxgenjs berisi deck ETB batch 1–3, termasuk identitas program, investasi, monetisasi, dan ringkasan SROI.",
+      "status": "available_in_conversation"
+    },
+    {
+      "source_id": "evidence_registry",
+      "source_type": "internal_evidence_registry",
+      "title": "Evidence registry",
+      "description": "Rujukan internal untuk outcome berbasis proxy dan penguatan narasi sampai evidence batch lebih rinci ditautkan.",
+      "status": "registry_stub"
+    }
+  ],
+  "investment": [
+    {
+      "year": 2023,
+      "category": "Program ETB — Total",
+      "amount_idr": 41616000,
+      "description": "Total anggaran ETB 2023 di Sales Region VI — Nunukan; kelompok utama: Aqila Motor.",
+      "data_status": "under_confirmation"
+    },
+    {
+      "year": 2024,
+      "category": "Program ETB — Total",
+      "amount_idr": 58262400,
+      "description": "Total anggaran ETB 2024 di Sales Region VI — Nunukan; kelompok utama: Aqila Motor.",
+      "data_status": "under_confirmation"
+    },
+    {
+      "year": 2025,
+      "category": "Program ETB — Total",
+      "amount_idr": 40000000,
+      "description": "Total anggaran ETB 2025 di Sales Region VI — Nunukan; kelompok utama: Aqila Motor.",
+      "data_status": "under_confirmation"
+    }
+  ],
+  "activities": [
+    {
+      "year": 2023,
+      "name": "Pembentukan fondasi layanan bengkel frontier",
+      "activity_scope": [
+        "Penguatan sarana bengkel",
+        "Aktivasi kelompok utama di Nunukan",
+        "Penyiapan kesiapan layanan dasar bengkel frontier"
+      ]
+    },
+    {
+      "year": 2023,
+      "name": "Aktivasi transaksi awal pelumas dan jasa-sparepart",
+      "activity_scope": [
+        "Aktivasi penjualan pelumas",
+        "Aktivasi jasa dan sparepart",
+        "Pendampingan layanan pelanggan pada fase awal"
+      ]
+    },
+    {
+      "year": 2024,
+      "name": "Penguatan node bengkel aktif",
+      "activity_scope": [
+        "Pendampingan usaha bengkel",
+        "Penguatan transaksi layanan",
+        "Stabilisasi node aktif sebagai unit usaha lokal"
+      ]
+    },
+    {
+      "year": 2024,
+      "name": "Konsolidasi market capture lokal",
+      "activity_scope": [
+        "Perluasan penangkapan permintaan servis lokal",
+        "Penguatan rutinitas penjualan pelumas",
+        "Penguatan hubungan layanan dengan pelanggan sekitar"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "Konsolidasi daya saing bengkel frontier",
+      "activity_scope": [
+        "Penguatan keberlanjutan usaha bengkel aktif",
+        "Penguatan market capture frontier",
+        "Penegasan transmisi manfaat ke pelaku usaha dan rumah tangga"
+      ]
+    }
+  ],
+  "stakeholders": [
+    {
+      "stakeholder_id": "STK_ETB_01",
+      "name": "PT Pertamina Lubricants",
+      "role": "Pemrakarsa dan penyelenggara program TJSL ETB.",
+      "involvement_type": "initiator"
+    },
+    {
+      "stakeholder_id": "STK_ETB_02",
+      "name": "UMKM Bengkel Mitra Frontier",
+      "role": "Penerima manfaat langsung, pengelola node usaha, dan aktor utama aktivasi layanan bengkel.",
+      "involvement_type": "direct_beneficiary"
+    },
+    {
+      "stakeholder_id": "STK_ETB_03",
+      "name": "Mekanik / Pelaku Usaha Bengkel",
+      "role": "Pelaksana layanan bengkel sekaligus penerima manfaat penguatan pendapatan kerja dan kapasitas usaha.",
+      "involvement_type": "direct_beneficiary"
+    },
+    {
+      "stakeholder_id": "STK_ETB_04",
+      "name": "Rumah Tangga Pelaku Usaha",
+      "role": "Penerima manfaat tidak langsung dari meningkatnya stabilitas usaha dan dukungan pendapatan kerja bengkel.",
+      "involvement_type": "indirect_beneficiary"
+    },
+    {
+      "stakeholder_id": "STK_ETB_05",
+      "name": "Pelanggan / Komunitas Lokal Frontier",
+      "role": "Pengguna layanan bengkel dan produk pelumas yang memperoleh akses servis lebih dekat dan lebih efisien.",
+      "involvement_type": "ecosystem_user"
+    }
+  ],
+  "context_baseline": {
+    "problem_statement": "Di wilayah frontier seperti Nunukan, kebutuhan servis kendaraan dan pelumas sebenarnya ada, tetapi belum sepenuhnya terkonversi menjadi sistem usaha bengkel lokal yang stabil, kompetitif, dan menyejahterakan pelaku usaha.",
+    "baseline_points": [
+      "Permintaan servis dan kebutuhan pelumas lokal tersedia, tetapi belum seluruhnya ditangkap oleh bengkel setempat sebagai transaksi yang berulang.",
+      "Biaya logistik dan keterbatasan konektivitas wilayah perbatasan/3T menambah tekanan biaya operasional bengkel frontier.",
+      "Sebagian bengkel masih berada pada tahap tercatat secara program, tetapi belum seluruhnya aktif sebagai node usaha yang konsisten bertransaksi.",
+      "Kapasitas teknis dan sarana bengkel belum otomatis berubah menjadi usaha yang produktif tanpa aktivasi pasar dan pendampingan operasional.",
+      "Nilai ekonomi yang tercipta di bengkel belum selalu termobilisasi menjadi dukungan pendapatan kerja dan stabilitas rumah tangga pelaku usaha."
+    ],
+    "operating_context": "Wilayah operasi program berada di Sales Region VI — Nunukan. Dalam ekosistem ETB terdapat tiga bengkel tercatat, dua bengkel aktif bertransaksi, dan satu kelompok utama penerima anggaran, sehingga tantangan utamanya bukan hanya menambah jumlah bengkel, tetapi memastikan node yang ada benar-benar hidup sebagai usaha lokal."
+  },
+  "ideal_conditions": {
+    "desired_state": "Bengkel frontier berfungsi sebagai simpul layanan lokal yang aktif, dipercaya, dan mampu mengubah kebutuhan pasar setempat menjadi transaksi usaha, efisiensi akses layanan, serta penguatan livelihood pelaku usaha.",
+    "ideal_points": [
+      "Bengkel lokal secara konsisten menangkap permintaan servis dan pelumas sebagai transaksi yang berulang.",
+      "Node bengkel aktif memiliki daya tahan operasional yang lebih baik meski berada di wilayah frontier dan berbiaya logistik tinggi.",
+      "Kapasitas teknis, sarana, dan pendampingan usaha terintegrasi menjadi model usaha bengkel yang produktif.",
+      "Masyarakat memperoleh layanan yang lebih dekat sehingga biaya dan friksi akses servis menurun.",
+      "Nilai ekonomi bengkel mengalir menjadi dukungan pendapatan kerja, stabilitas usaha, dan penguatan rumah tangga pelaku usaha."
+    ],
+    "vision_statement": "Keberhasilan ETB ditandai bukan oleh banyaknya bengkel yang tercatat, melainkan oleh hidupnya bengkel frontier sebagai node usaha yang aktif, menangkap pasar lokal, dan menciptakan manfaat ekonomi-sosial yang bertahan."
+  },
+  "strategy_design": {
+    "program_philosophy": "ETB dirancang untuk menggeser fokus dari sekadar keberadaan bengkel menuju aktivasi bengkel sebagai simpul ekonomi lokal di wilayah frontier.",
+    "program_logic": "Program menggabungkan penguatan sarana, aktivasi transaksi, dan pendampingan usaha agar kebutuhan layanan frontier berubah menjadi omzet bengkel, efisiensi akses servis, dan dukungan livelihood pelaku usaha.",
+    "institutional": {
+      "nodes": [
+        "Sales Region VI — Nunukan",
+        "Aqila Motor",
+        "Faris Bengkel"
+      ],
+      "note": "Struktur node dibedakan agar storytelling dan pengukuran tidak rancu: wilayah program terpusat di Nunukan, Aqila Motor merupakan kelompok utama penerima anggaran, sementara Faris Bengkel muncul sebagai node aktif yang ikut memotret transaksi riil. Dengan demikian ETB dibaca sebagai penguatan ekosistem bengkel frontier, bukan hanya intervensi pada satu titik usaha."
+    },
+    "intervention_tracks": [
+      "Penguatan sarana bengkel sebagai fondasi layanan",
+      "Aktivasi penjualan pelumas dan jasa-sparepart sebagai bukti market capture",
+      "Pendampingan operasional untuk menjaga konsistensi node bengkel aktif",
+      "Penguatan usaha bengkel agar transaksi berubah menjadi kapasitas usaha yang lebih stabil",
+      "Penguatan daya jangkau layanan lokal agar manfaat ekonomi juga terasa oleh komunitas frontier"
+    ]
+  },
+  "outcomes": [
+    {
+      "outcome_id": "OC_ETB_ECO_01",
+      "name": "Penjualan jasa dan sparepart bengkel meningkat",
+      "description": "Setelah layanan bengkel diaktivasi, kebutuhan servis masyarakat frontier lebih banyak tertangkap menjadi transaksi jasa dan sparepart yang berulang pada node bengkel aktif.",
+      "measurement": "Nilai transaksi jasa dan sparepart per tahun pada bengkel frontier aktif.",
+      "data_status": "observed",
+      "source_refs": [
+        "tjsl_scripts_master"
+      ]
+    },
+    {
+      "outcome_id": "OC_ETB_ECO_02",
+      "name": "Penjualan pelumas meningkat",
+      "description": "Aktivasi penjualan pelumas memperkuat omzet bengkel dan menjadi indikator bahwa pasar lokal tidak lagi sepenuhnya bocor ke luar node usaha setempat.",
+      "measurement": "Nilai penjualan pelumas per tahun pada bengkel frontier aktif.",
+      "data_status": "observed",
+      "source_refs": [
+        "tjsl_scripts_master"
+      ]
+    },
+    {
+      "outcome_id": "OC_ETB_ECO_03",
+      "name": "Aktivasi usaha bengkel frontier",
+      "description": "Kombinasi sarana, transaksi, dan pendampingan membuat bengkel frontier bergerak dari sekadar tercatat dalam program menuju unit usaha yang lebih operasional dan produktif.",
+      "measurement": "Nilai proxy aktivasi usaha bengkel per tahun.",
+      "data_status": "proxy",
+      "source_refs": [
+        "evidence_registry"
+      ]
+    },
+    {
+      "outcome_id": "OC_ETB_SOC_01",
+      "name": "Penghematan akses servis bagi komunitas lokal",
+      "description": "Ketika node bengkel aktif hadir lebih dekat dan lebih konsisten, masyarakat frontier menghadapi biaya akses dan friksi layanan yang lebih rendah dibanding bila harus mencari layanan yang lebih jauh.",
+      "measurement": "Nilai proxy penghematan akses servis per tahun.",
+      "data_status": "proxy",
+      "source_refs": [
+        "evidence_registry"
+      ]
+    },
+    {
+      "outcome_id": "OC_ETB_WB_01",
+      "name": "Dukungan pendapatan kerja pelaku usaha dan mekanik",
+      "description": "Peningkatan transaksi dan aktivasi usaha bengkel menghasilkan dukungan pendapatan kerja yang lebih stabil bagi pelaku usaha, mekanik, dan rumah tangga yang bergantung pada usaha tersebut.",
+      "measurement": "Nilai proxy dukungan pendapatan kerja per tahun.",
+      "data_status": "proxy",
+      "source_refs": [
+        "evidence_registry"
+      ]
+    }
+  ],
+  "monetization": [
+    {
+      "monetization_id": "MON_ETB_JSP_2023",
+      "aspect_id": "MON_ETB_JSP",
+      "aspect_code": "JSP",
+      "year": 2023,
+      "gross_idr": 59660000,
+      "proxy_basis": "nilai transaksi jasa dan sparepart bengkel frontier per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ETB_ECO_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_JSP_2024",
+      "aspect_id": "MON_ETB_JSP",
+      "aspect_code": "JSP",
+      "year": 2024,
+      "gross_idr": 83520000,
+      "proxy_basis": "nilai transaksi jasa dan sparepart bengkel frontier per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ETB_ECO_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_JSP_2025",
+      "aspect_id": "MON_ETB_JSP",
+      "aspect_code": "JSP",
+      "year": 2025,
+      "gross_idr": 116930000,
+      "proxy_basis": "nilai transaksi jasa dan sparepart bengkel frontier per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ETB_ECO_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_LUB_2023",
+      "aspect_id": "MON_ETB_LUB",
+      "aspect_code": "LUB",
+      "year": 2023,
+      "gross_idr": 135532244,
+      "proxy_basis": "nilai penjualan pelumas per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ETB_ECO_02",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_LUB_2024",
+      "aspect_id": "MON_ETB_LUB",
+      "aspect_code": "LUB",
+      "year": 2024,
+      "gross_idr": 189749143,
+      "proxy_basis": "nilai penjualan pelumas per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ETB_ECO_02",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_LUB_2025",
+      "aspect_id": "MON_ETB_LUB",
+      "aspect_code": "LUB",
+      "year": 2025,
+      "gross_idr": 265646800,
+      "proxy_basis": "nilai penjualan pelumas per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "observed",
+      "related_outcome_id": "OC_ETB_ECO_02",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_ENT_2023",
+      "aspect_id": "MON_ETB_ENT",
+      "aspect_code": "ENT",
+      "year": 2023,
+      "gross_idr": 15000000,
+      "proxy_basis": "proxy aktivasi usaha bengkel frontier per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ETB_ECO_03",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_ENT_2024",
+      "aspect_id": "MON_ETB_ENT",
+      "aspect_code": "ENT",
+      "year": 2024,
+      "gross_idr": 15000000,
+      "proxy_basis": "proxy aktivasi usaha bengkel frontier per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ETB_ECO_03",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_ENT_2025",
+      "aspect_id": "MON_ETB_ENT",
+      "aspect_code": "ENT",
+      "year": 2025,
+      "gross_idr": 15000000,
+      "proxy_basis": "proxy aktivasi usaha bengkel frontier per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ETB_ECO_03",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_ACC_2023",
+      "aspect_id": "MON_ETB_ACC",
+      "aspect_code": "ACC",
+      "year": 2023,
+      "gross_idr": 3000000,
+      "proxy_basis": "proxy penghematan akses servis bagi komunitas lokal per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ETB_SOC_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_ACC_2024",
+      "aspect_id": "MON_ETB_ACC",
+      "aspect_code": "ACC",
+      "year": 2024,
+      "gross_idr": 4200000,
+      "proxy_basis": "proxy penghematan akses servis bagi komunitas lokal per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ETB_SOC_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_ACC_2025",
+      "aspect_id": "MON_ETB_ACC",
+      "aspect_code": "ACC",
+      "year": 2025,
+      "gross_idr": 5850000,
+      "proxy_basis": "proxy penghematan akses servis bagi komunitas lokal per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ETB_SOC_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_LAB_2023",
+      "aspect_id": "MON_ETB_LAB",
+      "aspect_code": "LAB",
+      "year": 2023,
+      "gross_idr": 12000000,
+      "proxy_basis": "proxy dukungan pendapatan kerja pelaku usaha dan mekanik per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ETB_WB_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_LAB_2024",
+      "aspect_id": "MON_ETB_LAB",
+      "aspect_code": "LAB",
+      "year": 2024,
+      "gross_idr": 12000000,
+      "proxy_basis": "proxy dukungan pendapatan kerja pelaku usaha dan mekanik per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ETB_WB_01",
+      "display_status": "present_as_final"
+    },
+    {
+      "monetization_id": "MON_ETB_LAB_2025",
+      "aspect_id": "MON_ETB_LAB",
+      "aspect_code": "LAB",
+      "year": 2025,
+      "gross_idr": 12000000,
+      "proxy_basis": "proxy dukungan pendapatan kerja pelaku usaha dan mekanik per tahun",
+      "data_status": "under_confirmation",
+      "measurement_type": "proxy",
+      "related_outcome_id": "OC_ETB_WB_01",
+      "display_status": "present_as_final"
+    }
+  ],
+  "ddat_params": {
+    "JSP": {
+      "deadweight": 0.15,
+      "displacement": 0.05,
+      "attribution": 0.25,
+      "drop_off": 0.05,
+      "net_multiplier": 0.6068,
+      "notes": "Aspek observed dengan kebocoran nilai moderat karena ada pembelian pengganti, persaingan lokal, dan kontribusi faktor non-program.",
+      "justification": "Transaksi jasa dan sparepart merupakan manfaat ekonomi yang cukup langsung, tetapi tetap perlu dikurangi oleh pelanggan yang mungkin tetap melakukan servis di tempat lain, kontribusi usaha eksisting bengkel, dan penurunan efek tahunan."
+    },
+    "LUB": {
+      "deadweight": 0.2,
+      "displacement": 0.05,
+      "attribution": 0.25,
+      "drop_off": 0.05,
+      "net_multiplier": 0.5415,
+      "notes": "Penjualan pelumas observed, tetapi lebih rentan terhadap deadweight dan attribution dibanding jasa murni.",
+      "justification": "Sebagian penjualan pelumas mungkin tetap terjadi tanpa intervensi, sebagian lagi dipengaruhi jaringan distribusi dan preferensi pelanggan yang tidak seluruhnya dibentuk program."
+    },
+    "ENT": {
+      "deadweight": 0.2,
+      "displacement": 0,
+      "attribution": 0.25,
+      "drop_off": 0,
+      "net_multiplier": 0.6,
+      "notes": "Proxy aktivasi usaha dipakai untuk menangkap manfaat kelembagaan usaha bengkel.",
+      "justification": "Aktivasi usaha bengkel cukup dipengaruhi program, namun masih ada kontribusi kapasitas awal bengkel dan faktor usaha lokal yang membuat attribution perlu dijaga moderat."
+    },
+    "ACC": {
+      "deadweight": 0.15,
+      "displacement": 0,
+      "attribution": 0.2,
+      "drop_off": 0,
+      "net_multiplier": 0.68,
+      "notes": "Proxy penghematan akses servis menangkap manfaat kedekatan layanan bagi masyarakat frontier.",
+      "justification": "Kedekatan akses layanan relatif langsung tercipta oleh keberadaan bengkel aktif, meski masih ada unsur perilaku pelanggan dan alternatif akses lain yang membuat attribution tidak bisa nol."
+    },
+    "LAB": {
+      "deadweight": 0.1,
+      "displacement": 0,
+      "attribution": 0.3,
+      "drop_off": 0,
+      "net_multiplier": 0.63,
+      "notes": "Proxy dukungan pendapatan kerja digunakan untuk menangkap transmisi manfaat livelihood ke pelaku usaha dan mekanik.",
+      "justification": "Pendapatan kerja sangat terkait dengan aktivasi bengkel, tetapi tetap dipengaruhi etos kerja, jaringan pelanggan, dan usaha individual pelaku, sehingga attribution dijaga lebih tinggi."
+    }
+  },
+  "ori_rates": {
+    "2023": {
+      "series": "ORI023T3",
+      "rate": 0.059,
+      "compound_factor": 1.1252
+    },
+    "2024": {
+      "series": "ORI025T3",
+      "rate": 0.0625,
+      "compound_factor": 1.0625
+    },
+    "2025": {
+      "series": "ORI027T3",
+      "rate": 0.065,
+      "compound_factor": 1
+    }
+  },
+  "sroi_metrics": {
+    "status": "pending",
+    "calculated": {
+      "sroi_blended": 0,
+      "per_year": [],
+      "total_investment": 0,
+      "total_gross": 0,
+      "total_net": 0,
+      "total_net_compounded": 0
+    },
+    "note": "Dihitung otomatis oleh pipeline"
+  },
+  "coverage_status": {
+    "bab_1": "strong",
+    "bab_2": "strong",
+    "bab_3": "strong",
+    "bab_4": "strong",
+    "bab_5": "strong",
+    "bab_6": "strong",
+    "bab_7": "strong",
+    "bab_8": "partial",
+    "bab_9": "partial"
+  },
+  "learning_signals": {
+    "loop_1": [
+      "Penguatan sarana perlu diikuti aktivasi transaksi; tanpa itu bengkel mudah berhenti pada status tercatat tetapi belum hidup sebagai usaha.",
+      "Di wilayah frontier, kualitas node aktif lebih menentukan daripada sekadar banyaknya node yang tercatat dalam program."
+    ],
+    "loop_2": [
+      "Transaksi pelumas serta jasa-sparepart adalah sinyal terkuat bahwa kebutuhan lokal mulai berhasil ditangkap oleh bengkel setempat.",
+      "Ketika node usaha stabil, manfaat program mulai meluas dari omzet bengkel ke efisiensi akses layanan dan dukungan livelihood pelaku usaha."
+    ],
+    "loop_3": [
+      "Replikasi ETB perlu menegaskan pembedaan antara bengkel tercatat, bengkel aktif, dan bengkel penerima anggaran agar pembacaan dampak lebih presisi.",
+      "Story of change ETB paling kuat ketika dibaca sebagai transformasi dari service gap frontier menuju livelihood-supporting local enterprise, bukan semata sebagai bantuan bengkel."
+    ]
+  },
+  "outputs": [
+    {
+      "output_id": "OUT_ETB_01",
+      "year": 2023,
+      "description": "Ekosistem awal ETB di Nunukan terbentuk dengan tiga bengkel tercatat, dua bengkel mulai aktif bertransaksi, dan satu kelompok utama terdanai sebagai fondasi layanan frontier.",
+      "quantity": 3,
+      "unit": "bengkel tercatat",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_ETB_02",
+      "year": 2024,
+      "description": "Dua node bengkel aktif mempertahankan dan memperkuat transaksi pelumas serta jasa-sparepart sebagai bukti bahwa kebutuhan lokal mulai tertangkap oleh layanan setempat.",
+      "quantity": 2,
+      "unit": "bengkel aktif",
+      "data_status": "under_confirmation"
+    },
+    {
+      "output_id": "OUT_ETB_03",
+      "year": 2025,
+      "description": "Node bengkel aktif terkonsolidasi sebagai simpul usaha frontier, dengan Aqila Motor tetap sebagai kelompok utama terdanai dan ekosistem transaksi riil tetap tercermin pada lebih dari satu bengkel.",
+      "quantity": 2,
+      "unit": "node bengkel aktif",
+      "data_status": "under_confirmation"
+    }
+  ],
+  "problem_framing": {
+    "main_problem": "Masalah utama ETB bukan sekadar keterbatasan jumlah bengkel di wilayah frontier, melainkan belum optimalnya transformasi kebutuhan layanan lokal menjadi ekosistem usaha bengkel yang aktif, efisien, dan berdaya ungkit bagi livelihood pelaku usaha.",
+    "narrative": "Dalam konteks wilayah perbatasan, keberadaan bengkel tidak otomatis berarti hadirnya layanan yang andal atau usaha yang sehat. ETB merespons situasi ketika kebutuhan servis dan pelumas lokal belum tertangkap penuh oleh bengkel setempat karena keterbatasan sarana, ketahanan operasional, dan kemampuan market capture. Karena itu, intervensi diarahkan bukan hanya untuk membentuk atau mencatat bengkel, tetapi untuk mengaktivasi node usaha yang mampu menghasilkan transaksi, memperpendek akses layanan, dan mentransmisikan nilai ekonomi ke pelaku usaha serta rumah tangganya.",
+    "problem_nodes": [
+      {
+        "problem_id": "PROB_ETB_01",
+        "title": "Frontier service capture gap",
+        "description": "Permintaan servis dan pelumas lokal belum seluruhnya tertangkap oleh bengkel frontier sebagai transaksi rutin."
+      },
+      {
+        "problem_id": "PROB_ETB_02",
+        "title": "Operational resilience gap",
+        "description": "Bengkel di wilayah perbatasan menghadapi tekanan logistik dan biaya yang melemahkan kesinambungan operasional."
+      },
+      {
+        "problem_id": "PROB_ETB_03",
+        "title": "Recorded-to-active workshop gap",
+        "description": "Sebagian bengkel tercatat dalam ekosistem program, tetapi belum semuanya aktif secara konsisten sebagai node usaha."
+      },
+      {
+        "problem_id": "PROB_ETB_04",
+        "title": "Enterprise activation gap",
+        "description": "Sarana dan kemampuan teknis belum otomatis menjadi usaha bengkel yang produktif tanpa pendampingan dan aktivasi pasar."
+      },
+      {
+        "problem_id": "PROB_ETB_05",
+        "title": "Livelihood transmission gap",
+        "description": "Peningkatan aktivitas bengkel belum selalu segera diterjemahkan menjadi dukungan pendapatan kerja dan kesejahteraan rumah tangga pelaku usaha."
+      }
+    ]
+  },
+  "last_updated": "2026-04-13",
+  "_submit_ts": "2026-04-13T17:52:14.830Z"
+}
