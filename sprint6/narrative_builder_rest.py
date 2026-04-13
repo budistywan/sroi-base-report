@@ -25,6 +25,54 @@ from datetime import datetime
 
 BUILDER_VERSION = "2.0.0"
 
+# ── FORMAT NORMALIZERS ───────────────────────────────────────────
+def _to_list(val, str_key=None):
+    """Normalisasi ke list of strings — handle list, dict, string."""
+    if val is None: return []
+    if isinstance(val, list): return [str(i) for i in val if i]
+    if isinstance(val, dict):
+        if str_key and str_key in val: return [str(val[str_key])]
+        parts = [str(v) for v in val.values() if v and isinstance(v, (str,int,float))]
+        return parts if parts else []
+    return [str(val)] if val else []
+
+def _to_str(val, keys=None, fallback=""):
+    """Normalisasi ke string."""
+    if val is None: return fallback
+    if isinstance(val, str): return val
+    if isinstance(val, dict):
+        if keys:
+            for k in keys:
+                if val.get(k): return str(val[k])
+        return " ".join(str(v) for v in val.values() if v and isinstance(v, str))
+    if isinstance(val, list):
+        return "; ".join(str(i) for i in val[:3] if i)
+    return str(val)
+
+def _activities_to_list(acts_raw):
+    if isinstance(acts_raw, dict):
+        flat = []
+        for yr_key, act_list in acts_raw.items():
+            if isinstance(act_list, list):
+                for a in act_list:
+                    if isinstance(a, str):
+                        flat.append({"year": int(yr_key), "name": a, "activity_scope": [a]})
+                    elif isinstance(a, dict):
+                        flat.append({**a, "year": int(yr_key)})
+        return flat
+    return acts_raw if isinstance(acts_raw, list) else []
+
+def _ls_to_list(val):
+    """Normalisasi learning_signals loop ke list."""
+    if not val: return ["—"]
+    if isinstance(val, list): return [str(i) for i in val] if val else ["—"]
+    if isinstance(val, dict):
+        parts = []
+        for k in ("signal", "implication", "lesson", "finding"):
+            if val.get(k): parts.append(str(val[k]))
+        return parts if parts else ["—"]
+    return [str(val)] if val else ["—"]
+
 # ── PATH CONFIG ──────────────────────────────────────────
 parser = argparse.ArgumentParser()
 parser.add_argument("--canonical",  default=None)
@@ -227,7 +275,7 @@ b1 += [
     ),
     H2("1.4 Konsiderasi Hukum"),
     P("Penyusunan laporan ini berlandaskan pada regulasi berikut:"),
-    BULLET([p for p in pp.get("policy_basis", [])]),
+    BULLET(_to_list(pp.get("policy_basis"))),
     SMALL(
         "Regulasi di atas membentuk kerangka kewajiban dan metodologi "
         "yang menjadi dasar pelaksanaan kajian SROI ini."
@@ -268,7 +316,7 @@ b2 += [
         f"pilar TJSL '{pp.get('tjsl_pillar','—')}' yang selaras dengan agenda SDGs global. "
         f"Program {PROG_NAME} secara langsung berkontribusi pada:"
     ),
-    BULLET([s for s in pp.get("sdg_alignment", [])]),
+    BULLET(_to_list(pp.get("sdg_alignment"))),
     H2("2.3 Prinsip dan Strategi Pengelolaan Pemberdayaan"),
     P(
         f"Pengelolaan program TJSL {company} menganut pendekatan "
@@ -429,11 +477,14 @@ b4 += [
     H2("4.1 Profil dan Kondisi Kelompok Sasaran"),
     P(
         f"Kelompok sasaran program adalah {TARGET_GROUP}. "
-        f"{baseline_econ.get('baseline_economic','')}"
+        f"{_to_str(baseline_econ.get('baseline_economic') or cb.get('main_problem',''))}"
     ),
     P(
-        f"{baseline_econ.get('baseline_social','')} "
-        f"{baseline_econ.get('baseline_wellbeing','')}",
+        " ".join(filter(None, [
+            _to_str(baseline_econ.get('baseline_social')),
+            _to_str(baseline_econ.get('baseline_wellbeing')),
+            "; ".join(_to_list(cb.get('key_indicators')))[:200] if cb.get('key_indicators') else ""
+        ])),
         ds="present_as_inferred",
         sr=["context_baseline"]
     ),
@@ -446,18 +497,23 @@ b4 += [
 
 # Problem tree — dinamis
 problem_tree = pf.get("problem_tree", [])
+# Handle problem_framing.narrative (PSN format) atau problem_tree (EHS format)
+pf_narrative = _to_str(pf.get("narrative"), fallback="")
+pf_barrier   = _to_str(pf.get("core_barrier"), fallback="")
+if pf_narrative:
+    b4.append(P(pf_narrative, ds="present_as_inferred", sr=["problem_framing"]))
+if pf_barrier:
+    b4.append(P(f"Hambatan inti: {pf_barrier}", ds="present_as_inferred", sr=["problem_framing"]))
 if isinstance(problem_tree, list) and len(problem_tree) > 0:
     if isinstance(problem_tree[0], str):
-        # Format flat string
         for pt in problem_tree:
             b4.append(P(f"• {pt}", ds="present_as_inferred", sr=["problem_framing"]))
     elif isinstance(problem_tree[0], dict):
-        # Format dict dengan label/description
         for pt in problem_tree:
             b4.append(H3(f"{pt.get('problem_id','')}. {pt.get('label','')}"))
             b4.append(P(pt.get("description",""), ds="present_as_inferred", sr=["problem_framing"]))
             if pt.get("root_causes"):
-                b4.append(BULLET(pt["root_causes"]))
+                b4.append(BULLET(_to_list(pt["root_causes"])))
 
 b4 += [
     WARN(
@@ -471,7 +527,7 @@ b4 += [
 ]
 
 # Potensi dari ideal_conditions
-potentials = ic.get("key_improvements", [])
+potentials = _to_list(ic.get("key_improvements"))
 if potentials:
     b4.append(BULLET(potentials))
 else:
@@ -492,12 +548,12 @@ b5 += [
         f"yang memungkinkan {TARGET_GROUP} mencapai kemandirian ekonomi "
         f"dan kondisi kehidupan yang lebih baik secara berkelanjutan."
     ),
-    BULLET(ic.get("target_outcomes", [])),
+    BULLET(_to_list(ic.get("target_outcomes", []))),
     H2("5.2 Tujuan Spesifik: Key Areas of Improvement"),
     P("Area perbaikan kunci yang menjadi fokus intervensi program:"),
 ]
 
-for area in ic.get("key_improvements", []):
+for area in _to_list(ic.get("key_improvements")):
     b5.append(P(f"• {area}", ds="present_as_inferred", sr=["ideal_conditions"]))
 
 b5 += [
@@ -567,7 +623,7 @@ for stage in sd.get("roadmap", []):
 b6 += [
     H2("6.4 Value Chain"),
     P("Rantai nilai program mengalir secara sekuensial dari kapasitas teknis menuju dampak sosial:"),
-    P(sd.get("value_chain","—"), ds="present_as_final", sr=["strategy_design"]),
+    P(_to_str(sd.get("value_chain"),"—"), ds="present_as_final", sr=["strategy_design"]),
     H2("6.5 Kelembagaan"),
     P(
         f"Program membentuk dan menguatkan {len(nodes)} node kelembagaan "
@@ -599,6 +655,18 @@ b6.append(METRIC3([
     {"label":"Aspek Monetisasi",   "value":str(len(asp_meta)), "sublabel":"aspek"},
 ]))
 
+# Helper: normalize learning_signals loop (list or dict)
+def _ls_to_list(val):
+    if not val: return ["—"]
+    if isinstance(val, list): return val if val else ["—"]
+    if isinstance(val, dict):
+        parts = []
+        if val.get("signal"):     parts.append(val["signal"])
+        if val.get("implication"):parts.append(val["implication"])
+        if val.get("lesson"):     parts.append(val["lesson"])
+        return parts if parts else ["—"]
+    return [str(val)]
+
 # ══════════════════════════════════════════════════════════
 # BAB 8 — TRIPLE LOOP LEARNING
 # ══════════════════════════════════════════════════════════
@@ -625,9 +693,11 @@ lfa_refs = ls.get("lfa_reflections", [])
 if isinstance(lfa_refs, list):
     for ref in lfa_refs:
         if isinstance(ref, dict):
-            b8.append(H3(f"Refleksi: {ref.get('activity_ref','')}"))
-            b8.append(P(f"Gap LFA: {ref.get('lfa_gap','')}",   ds="present_as_inferred", sr=["learning_signals"]))
-            b8.append(P(f"Pembelajaran: {ref.get('lesson_learned','')}", ds="present_as_inferred", sr=["learning_signals"]))
+            b8.append(H3(f"Refleksi: {ref.get('activity_ref', ref.get('signal','')[:50] if ref.get('signal') else '')}"))
+            gap = ref.get('lfa_gap', ref.get('signal',''))
+            lesson = ref.get('lesson_learned', ref.get('implication',''))
+            if gap:    b8.append(P(f"Temuan: {gap}",       ds="present_as_inferred", sr=["learning_signals"]))
+            if lesson: b8.append(P(f"Implikasi: {lesson}", ds="present_as_inferred", sr=["learning_signals"]))
         elif isinstance(ref, str):
             b8.append(P(f"• {ref}", ds="present_as_inferred", sr=["learning_signals"]))
 
@@ -641,13 +711,13 @@ b8 += [
     ),
     H3("Loop 1 — Single Loop Learning (Apa yang terjadi?)"),
     P("Pembelajaran level pertama berfokus pada hasil langsung dari implementasi aktivitas:"),
-    BULLET(ls.get("loop_1", ["—"])),
+    BULLET(_ls_to_list(ls.get("loop_1"))),
     H3("Loop 2 — Double Loop Learning (Mengapa respons itu dipilih?)"),
     P("Pembelajaran level kedua merefleksikan penyesuaian strategi berdasarkan temuan implementasi:"),
-    BULLET(ls.get("loop_2", ["—"])),
+    BULLET(_ls_to_list(ls.get("loop_2"))),
     H3("Loop 3 — Triple Loop Learning (Apa yang berubah secara fundamental?)"),
     P("Pembelajaran level ketiga menandai transformasi nilai dan asumsi mendasar:"),
-    BULLET(ls.get("loop_3", ["—"])),
+    BULLET(_ls_to_list(ls.get("loop_3"))),
     WARN(
         "Analisis triple loop di atas bersumber dari learning signals yang tersedia. "
         "Untuk laporan final, refleksi ini perlu diperkaya dengan wawancara mendalam.",
@@ -725,8 +795,8 @@ for flag in high_flags:
     recos.append(
         f"Tindak lanjuti: {flag.get('field','—')} — {flag.get('description','')}"
     )
-for item in ls.get("loop_2", [])[:3]:
-    recos.append(item)
+for item in _ls_to_list(ls.get("loop_2"))[:3]:
+    if item != "—": recos.append(item)
 
 if recos:
     b9.append(NUMBERED(recos[:5]))
