@@ -73,6 +73,45 @@ years        = sorted(set(m["year"] for m in canonical.get("monetization", [])))
 
 print(f"\nProgram : {PROG_CODE} — {PROG_NAME}")
 
+# ── FORMAT NORMALIZERS ───────────────────────────────────────────
+def _to_list(val, str_key=None):
+    """Normalisasi nilai ke list of strings — handle list, dict, string."""
+    if val is None: return []
+    if isinstance(val, list): return val
+    if isinstance(val, dict):
+        if str_key and str_key in val: return [val[str_key]]
+        # Ambil semua string values dari dict
+        parts = [str(v) for v in val.values() if v and isinstance(v, (str, int, float))]
+        return parts if parts else []
+    return [str(val)]
+
+def _to_str(val, keys=None, fallback=""):
+    """Normalisasi nilai ke string — handle string, dict, list."""
+    if val is None: return fallback
+    if isinstance(val, str): return val
+    if isinstance(val, dict):
+        if keys:
+            for k in keys:
+                if val.get(k): return str(val[k])
+        return " ".join(str(v) for v in val.values() if v and isinstance(v, str))
+    if isinstance(val, list):
+        return "; ".join(str(i) for i in val[:3] if i)
+    return str(val)
+
+def _activities_to_list(acts_raw):
+    """Handle activities sebagai list of dicts ATAU dict per tahun."""
+    if isinstance(acts_raw, dict):
+        flat = []
+        for yr_key, act_list in acts_raw.items():
+            if isinstance(act_list, list):
+                for a in act_list:
+                    if isinstance(a, str):
+                        flat.append({"year": int(yr_key), "name": a, "activity_scope": [a]})
+                    elif isinstance(a, dict):
+                        flat.append({**a, "year": int(yr_key)})
+        return flat
+    return acts_raw if isinstance(acts_raw, list) else []
+
 calc       = handoff_b["sroi_metrics"]["calculated"]
 audit_map  = {e["field"]: e["value"] for e in handoff_b["calc_audit_log"]}
 fin_tables = {t["table_id"]: t for t in handoff_b["financial_tables"]}
@@ -175,19 +214,7 @@ blocks += [
 # ── 7.1 PROSES & KEGIATAN ────────────────────────────────
 blocks += [H2("7.1 Proses dan Kegiatan yang Dilakukan")]
 
-# Handle activities sebagai list atau dict per tahun
-_acts_raw = canonical.get("activities", [])
-if isinstance(_acts_raw, dict):
-    activities = []
-    for yr_key, act_list in _acts_raw.items():
-        if isinstance(act_list, list):
-            for a in act_list:
-                if isinstance(a, str):
-                    activities.append({"year": int(yr_key), "name": a, "activity_scope": [a]})
-                elif isinstance(a, dict):
-                    activities.append({**a, "year": int(yr_key)})
-else:
-    activities = _acts_raw if isinstance(_acts_raw, list) else []
+activities = _activities_to_list(canonical.get("activities", []))
 
 blocks.append(P(
     f"Program {PROG_CODE} melaksanakan {len(activities)} aktivitas terstruktur "
@@ -208,8 +235,9 @@ for yr in years:
 
 # ── 7.2 NODE PROGRAM ─────────────────────────────────────
 blocks += [H2("7.2 Node Program")]
+_nodes_display = nodes if isinstance(nodes, list) else list(nodes) if nodes else []
 blocks.append(P(
-    f"Program beroperasi di {len(nodes)} node/lokasi: {', '.join(nodes)}. "
+    f"Program beroperasi di {len(_nodes_display)} node/lokasi: {', '.join(str(n) for n in _nodes_display)}. "
     f"{node_note}"
 ))
 
@@ -489,19 +517,10 @@ for flag in high_flags:
     ))
 
 # Learning signals loop 1 — sebagai temuan
-# Handle loop_1 sebagai list of strings ATAU dict {signal, implication}
 ls = canonical.get("learning_signals", {})
-loop1 = ls.get("loop_1")
-if loop1:
-    if isinstance(loop1, list):
-        items = loop1[:2]
-    elif isinstance(loop1, dict):
-        items = [loop1.get("signal",""), loop1.get("implication","")]
-        items = [i for i in items if i]
-    else:
-        items = []
-    for item in items:
-        blocks.append(P(str(item), display_status="present_as_inferred", source_refs=["learning_signals"]))
+if isinstance(ls, list): ls = {}
+for item in _to_list(ls.get("loop_1"))[:2]:
+    blocks.append(P(str(item), display_status="present_as_inferred", source_refs=["learning_signals"]))
 
 blocks.append(SMALL(
     f"Catatan metodologis: seluruh angka pada bab ini dihasilkan oleh Financial "
