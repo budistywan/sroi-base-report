@@ -489,10 +489,19 @@ for flag in high_flags:
     ))
 
 # Learning signals loop 1 — sebagai temuan
+# Handle loop_1 sebagai list of strings ATAU dict {signal, implication}
 ls = canonical.get("learning_signals", {})
-if ls.get("loop_1"):
-    for item in ls["loop_1"][:2]:
-        blocks.append(P(item, display_status="present_as_inferred", source_refs=["learning_signals"]))
+loop1 = ls.get("loop_1")
+if loop1:
+    if isinstance(loop1, list):
+        items = loop1[:2]
+    elif isinstance(loop1, dict):
+        items = [loop1.get("signal",""), loop1.get("implication","")]
+        items = [i for i in items if i]
+    else:
+        items = []
+    for item in items:
+        blocks.append(P(str(item), display_status="present_as_inferred", source_refs=["learning_signals"]))
 
 blocks.append(SMALL(
     f"Catatan metodologis: seluruh angka pada bab ini dihasilkan oleh Financial "
