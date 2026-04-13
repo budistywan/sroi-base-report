@@ -311,14 +311,32 @@ extracted_path = S7 / f"canonical_{PROGRAM.lower()}_extracted.json"
 
 if args.skip_extract:
     print(f"\n[SKIP] Source Extraction — menggunakan canonical yang sudah ada")
-    # Cari canonical yang sudah ada
+    # Cari canonical — urutan lookup:
+    # 1. sprint7/canonical_{program}_extracted.json
+    # 2. work/canonical_{program}.json (sudah ada)
+    # 3. data/canonical/canonical_{program}_v1.json (dari repo)
+    # 4. sprint0/canonical_{program}_v1.json (legacy)
+    data_canonical = BASE_DIR / f"data/canonical/canonical_{PROGRAM.lower()}_v1.json"
+    sprint0_canonical = S0.parent / f"sprint0/canonical_{PROGRAM.lower()}_v1.json"
+
     if extracted_path.exists():
         shutil.copy(extracted_path, canonical_path)
         print(f"  Copied: {extracted_path} → {canonical_path}")
     elif canonical_path.exists():
         print(f"  Using existing: {canonical_path}")
+    elif data_canonical.exists():
+        shutil.copy(data_canonical, canonical_path)
+        print(f"  Copied from data/canonical: {data_canonical} → {canonical_path}")
+    elif sprint0_canonical.exists():
+        shutil.copy(sprint0_canonical, canonical_path)
+        print(f"  Copied from sprint0: {sprint0_canonical} → {canonical_path}")
     else:
         print(f"FAIL: Tidak ada canonical untuk {PROGRAM} — jalankan tanpa --skip-extract")
+        print(f"  Dicari di:")
+        print(f"    {extracted_path}")
+        print(f"    {canonical_path}")
+        print(f"    {data_canonical}")
+        print(f"    {sprint0_canonical}")
         sys.exit(1)
 else:
     ok = step(
