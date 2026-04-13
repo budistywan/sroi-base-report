@@ -29,6 +29,39 @@ from datetime import datetime
 
 BUILDER_VERSION = "2.0.0"
 
+# ── FORMAT NORMALIZERS ───────────────────────────────────────────
+def _to_list(val):
+    if val is None: return []
+    if isinstance(val, list): return [str(i) for i in val if i]
+    if isinstance(val, dict):
+        return [str(v) for v in val.values() if v and isinstance(v,(str,int,float))]
+    return [str(val)] if val else []
+
+def _to_str(val, keys=None, fallback=""):
+    if val is None: return fallback
+    if isinstance(val, str): return val
+    if isinstance(val, dict):
+        if keys:
+            for k in keys:
+                if val.get(k): return str(val[k])
+        return " ".join(str(v) for v in val.values() if v and isinstance(v,str))
+    if isinstance(val, list):
+        return "; ".join(str(i) for i in val[:3] if i)
+    return str(val)
+
+def _activities_to_list(acts_raw):
+    if isinstance(acts_raw, dict):
+        flat = []
+        for yr_key, act_list in acts_raw.items():
+            if isinstance(act_list, list):
+                for a in act_list:
+                    if isinstance(a, str):
+                        flat.append({"year": int(yr_key), "name": a, "activity_scope": [a]})
+                    elif isinstance(a, dict):
+                        flat.append({**a, "year": int(yr_key)})
+        return flat
+    return acts_raw if isinstance(acts_raw, list) else []
+
 # ── PATH CONFIG ──────────────────────────────────────────
 parser = argparse.ArgumentParser(description="Point Builder — builder_sroi (dynamic)")
 parser.add_argument("--canonical",  default=None)
@@ -249,21 +282,7 @@ argument_points.append({
 })
 
 # ── 7.4 Output Program ────────────────────────────────────
-# Handle activities sebagai list (EHS) atau dict per tahun (PSN)
-_acts_raw = canonical.get("activities", [])
-if isinstance(_acts_raw, dict):
-    # Format dict: {"2023": [...], "2024": [...], "2025": [...]}
-    _acts_flat = []
-    for yr_key, act_list in _acts_raw.items():
-        if isinstance(act_list, list):
-            for a in act_list:
-                if isinstance(a, str):
-                    _acts_flat.append({"year": int(yr_key), "name": a, "activity_id": a})
-                elif isinstance(a, dict):
-                    _acts_flat.append({**a, "year": int(yr_key)})
-    activities_list = _acts_flat
-else:
-    activities_list = _acts_raw if isinstance(_acts_raw, list) else []
+activities_list = _activities_to_list(canonical.get("activities", []))
 
 act_count = len(activities_list)
 out_count = len(canonical.get("outputs", []) if isinstance(canonical.get("outputs"), list) else [])
