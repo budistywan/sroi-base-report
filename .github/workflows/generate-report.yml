@@ -88,6 +88,12 @@ jobs:
       - name: Run core pipeline
         if: ${{ github.event.inputs.mode != 'refine-only' }}
         run: |
+          PROG=$(echo "${{ steps.program.outputs.code }}" | tr '[:upper:]' '[:lower:]')
+          WORK_DIR="output/${{ steps.program.outputs.code }}/work"
+          mkdir -p "$WORK_DIR"
+          # Copy canonical ke work dir agar orchestrator bisa menemukannya
+          cp "data/canonical/canonical_${PROG}_v1.json" "$WORK_DIR/canonical_${PROG}.json"
+          echo "Copied canonical to: $WORK_DIR/canonical_${PROG}.json"
           python run.py \
             --program ${{ steps.program.outputs.code }} \
             --skip-extract
