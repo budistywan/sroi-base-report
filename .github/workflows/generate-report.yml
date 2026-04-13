@@ -85,9 +85,8 @@ jobs:
         if: ${{ github.event.inputs.mode != 'refine-only' }}
         run: |
           PROG=$(echo "${{ steps.program.outputs.code }}" | tr '[:upper:]' '[:lower:]')
-          CODE="${{ steps.program.outputs.code }}"
-          # Orchestrator mencari di output/{PROGRAM}/work/canonical_{program}.json
-          WORK_DIR="output/${CODE}/work"
+          # Gunakan lowercase untuk WORK_DIR agar konsisten dengan orchestrator
+          WORK_DIR="output/${PROG}/work"
           mkdir -p "$WORK_DIR"
           SRC="data/canonical/canonical_${PROG}_v1.json"
           DST="$WORK_DIR/canonical_${PROG}.json"
