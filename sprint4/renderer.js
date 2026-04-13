@@ -30,9 +30,15 @@ const SCRIPT_DIR   = __dirname;
 const SEMANTIC_FILE = argMap['semantic']
   || process.env.SEMANTIC_FILE
   || path.join(SCRIPT_DIR, '../sprint3/chapter_semantic_bab7.json');
-const OUTPUT_FILE   = argMap['output']
+
+// Output filename dinamis dari program_code — tidak hardcode ESL
+const _rawSemantic = JSON.parse(fs.readFileSync(SEMANTIC_FILE, 'utf8'));
+const _bab7Preview = Array.isArray(_rawSemantic) ? _rawSemantic[0] : _rawSemantic;
+const _progCode    = _bab7Preview.program_code || 'PROGRAM';
+
+const OUTPUT_FILE = argMap['output']
   || process.env.OUTPUT_FILE
-  || path.join(SCRIPT_DIR, 'ESL_Report_Bab7.docx');
+  || path.join(SCRIPT_DIR, `${_progCode}_Report_Bab7.docx`);
 
 console.log(`Semantic  : ${path.resolve(SEMANTIC_FILE)}`);
 console.log(`Output    : ${path.resolve(OUTPUT_FILE)}`);
@@ -42,7 +48,7 @@ const semantic    = Array.isArray(semanticRaw) ? semanticRaw : [semanticRaw];
 const bab7        = semantic.find(b => b.chapter_id === 'bab_7');
 if (!bab7) { console.error('FAIL: bab_7 tidak ditemukan'); process.exit(1); }
 
-// ── COLOUR PALETTE (Marine Teal — ESL) ──────────────────────
+// ── COLOUR PALETTE (Marine Teal) ────────────────────────────
 const C = {
   navy:    '0D2B2B', navyMid: '1A4040', teal:   '0A6B6B',
   tealLt:  '00B4B4', orange: 'E8541A', amber:  'E67E22',
@@ -477,7 +483,7 @@ const doc = new Document({
       default: new Header({
         children: [new Paragraph({
           children: [
-            new TextRun({ text: 'Laporan Evaluasi SROI  ·  Enduro Sahabat Lapas  ·  Bab VII', font: 'Arial', size: 16, color: C.teal }),
+            new TextRun({ text: `Laporan Evaluasi SROI  ·  ${_progCode}  ·  Bab VII`, font: 'Arial', size: 16, color: C.teal }),
             new TextRun({ text: '\t', font: 'Arial', size: 16 }),
             new TextRun({ text: 'PT Dipa Konsultan Utama', font: 'Arial', size: 16, color: C.gray }),
           ],
