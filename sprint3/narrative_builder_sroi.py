@@ -175,7 +175,20 @@ blocks += [
 # ── 7.1 PROSES & KEGIATAN ────────────────────────────────
 blocks += [H2("7.1 Proses dan Kegiatan yang Dilakukan")]
 
-activities = canonical.get("activities", [])
+# Handle activities sebagai list atau dict per tahun
+_acts_raw = canonical.get("activities", [])
+if isinstance(_acts_raw, dict):
+    activities = []
+    for yr_key, act_list in _acts_raw.items():
+        if isinstance(act_list, list):
+            for a in act_list:
+                if isinstance(a, str):
+                    activities.append({"year": int(yr_key), "name": a, "activity_scope": [a]})
+                elif isinstance(a, dict):
+                    activities.append({**a, "year": int(yr_key)})
+else:
+    activities = _acts_raw if isinstance(_acts_raw, list) else []
+
 blocks.append(P(
     f"Program {PROG_CODE} melaksanakan {len(activities)} aktivitas terstruktur "
     f"sepanjang periode {PERIOD_LABEL}. "
