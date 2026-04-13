@@ -1,4 +1,3 @@
-
 name: Generate SROI Report
 
 on:
@@ -95,6 +94,8 @@ jobs:
           if [ -f "$SRC" ]; then
             cp "$SRC" "$DST"
             echo "Canonical copied: $SRC → $DST"
+            echo "=== coverage_status in canonical ==="
+            python3 -c "import json; d=json.load(open('$DST')); print(d.get('coverage_status','MISSING'))"
           else
             echo "ERROR: canonical tidak ditemukan di $SRC"
             exit 1
