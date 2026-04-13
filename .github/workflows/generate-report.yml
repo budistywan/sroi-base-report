@@ -84,16 +84,6 @@ jobs:
           echo "code=${PROGRAM}" >> $GITHUB_OUTPUT
           echo "Running pipeline for program: ${PROGRAM}"
 
-      # 6b. Debug — verifikasi file canonical dan orchestrator
-      - name: Debug canonical and orchestrator
-        run: |
-          echo "=== Canonical files ==="
-          find data/canonical/ -name "*.json" 2>/dev/null || echo "data/canonical/ tidak ada"
-          echo "=== Orchestrator version check ==="
-          grep -n "data/canonical" sprint9/orchestrator.py | head -5 || echo "No data/canonical reference in orchestrator"
-          echo "=== Work dir ==="
-          ls output/ 2>/dev/null || echo "output/ belum ada"
-
       # 7. Run production pipeline
       - name: Run core pipeline
         if: ${{ github.event.inputs.mode != 'refine-only' }}
@@ -117,6 +107,18 @@ jobs:
             --skip-extract
         env:
           PROGRAM: ${{ steps.program.outputs.code }}
+
+      # 7b. Debug narrative_builder_rest on failure
+      - name: Debug narrative builder rest
+        if: failure()
+        run: |
+          PROG=$(echo "${{ steps.program.outputs.code }}" | tr '[:upper:]' '[:lower:]')
+          echo "=== Running narrative_builder_rest directly ==="
+          python sprint6/narrative_builder_rest.py \
+            --canonical output/${{ steps.program.outputs.code }}/work/canonical_${PROG}.json \
+            --handoff-b output/${{ steps.program.outputs.code }}/work/handoff_b.json \
+            --blueprint output/${{ steps.program.outputs.code }}/work/report_blueprint.json \
+            --output output/${{ steps.program.outputs.code }}/work 2>&1 || true
 
       # 8. Run batch refinement
       - name: Run batch refinement
