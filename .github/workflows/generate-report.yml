@@ -110,6 +110,14 @@ jobs:
         if: failure()
         run: |
           PROG=$(echo "${{ steps.program.outputs.code }}" | tr '[:upper:]' '[:lower:]')
+          echo "=== File di data/canonical/ ==="
+          ls -la data/canonical/ || echo "tidak ada"
+          echo "=== coverage_status di data/canonical ==="
+          python3 -c "import json; d=json.load(open('data/canonical/canonical_${PROG}_v1.json')); print(d.get('coverage_status','MISSING'))" 2>&1 || true
+          echo "=== File di work dir ==="
+          ls -la output/${PROG}/work/ 2>/dev/null || echo "work dir tidak ada"
+          echo "=== coverage_status di work dir ==="
+          python3 -c "import json; d=json.load(open('output/${PROG}/work/canonical_${PROG}.json')); print(d.get('coverage_status','MISSING'))" 2>&1 || true
           echo "=== Running point_builder_sroi directly ==="
           python sprint3/point_builder_sroi.py \
             --canonical output/${PROG}/work/canonical_${PROG}.json \
