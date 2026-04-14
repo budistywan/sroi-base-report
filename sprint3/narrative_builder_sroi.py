@@ -140,7 +140,11 @@ nodes         = institutional.get("nodes", [])
 node_note     = institutional.get("note", "")
 
 # ── Temuan kritis dari uncertainty_flags ──────────────────
-high_flags = [f for f in canonical.get("uncertainty_flags", []) if f.get("severity") == "high"]
+_uf_raw = canonical.get("uncertainty_flags", [])
+if isinstance(_uf_raw, dict): _uf_raw = list(_uf_raw.values())
+elif not isinstance(_uf_raw, list): _uf_raw = []
+_uf_norm = [f if isinstance(f, dict) else {"description": str(f), "severity": "medium"} for f in _uf_raw]
+high_flags = [f for f in _uf_norm if f.get("severity") == "high"]
 
 def A(field):
     if field not in audit_map:
