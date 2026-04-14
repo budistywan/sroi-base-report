@@ -178,12 +178,26 @@ jobs:
       - name: Collect outputs
         run: |
           mkdir -p artifacts
+          PROG=$(echo "${{ steps.program.outputs.code }}" | tr '[:upper:]' '[:lower:]')
+          W="output/${PROG}/work"
+
+          # docx — laporan final
           find . -name "*.docx" ! -path "./node_modules/*" \
             -exec cp {} artifacts/ \;
+
+          # semantic JSON — untuk Pipeline B / enrichment
+          [ -f "${W}/chapter_semantic_bab7.json" ] && \
+            cp "${W}/chapter_semantic_bab7.json" artifacts/
+          [ -f "${W}/chapters_semantic_rest.json" ] && \
+            cp "${W}/chapters_semantic_rest.json" artifacts/
+
+          # metadata pipeline
           find sprint14e -name "refinement_analytics_report.json" \
             -exec cp {} artifacts/ \; 2>/dev/null || true
           find sprint14e -name "batch_consistency_report.json" \
             -exec cp {} artifacts/ \; 2>/dev/null || true
+
+          echo "=== Artifact contents ==="
           ls -lh artifacts/
 
       # 10. Upload docx sebagai GitHub artifact (bisa didownload)
