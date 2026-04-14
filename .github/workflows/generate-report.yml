@@ -107,17 +107,62 @@ jobs:
 
 
 
-      # 7b. Debug on failure
+      # 7b. Debug on failure — auto detect step yang gagal
       - name: Debug on failure
         if: failure()
         run: |
           PROG=$(echo "${{ steps.program.outputs.code }}" | tr '[:upper:]' '[:lower:]')
-          echo "=== Running full_assembler directly ==="
-          node sprint8/full_assembler.js \
-            --semantic-dir output/${PROG}/work \
-            --semantic-dir6 output/${PROG}/work \
-            --canonical output/${PROG}/work/canonical_${PROG}.json \
-            --output output/${PROG}/${PROG^^}_SROI_Report_Full.docx 2>&1 || true
+          W="output/${PROG}/work"
+          echo "=== Files in work dir ==="
+          ls -la ${W}/ 2>/dev/null || echo "work dir kosong"
+
+          if [ ! -f "${W}/handoff_b.json" ]; then
+            echo "=== FAILED AT: Financial Engine ==="
+            python sprint1/financial_engine.py \
+              --input ${W}/canonical_${PROG}.json \
+              --output ${W}/handoff_b.json 2>&1 || true
+
+          elif [ ! -f "${W}/chapter_outline_bab7.json" ]; then
+            echo "=== FAILED AT: Point Builder ==="
+            python sprint3/point_builder_sroi.py \
+              --canonical ${W}/canonical_${PROG}.json \
+              --handoff-b ${W}/handoff_b.json \
+              --handoff-c ${W}/handoff_c.json \
+              --output ${W} 2>&1 || true
+
+          elif [ ! -f "${W}/chapter_semantic_bab7.json" ]; then
+            echo "=== FAILED AT: Narrative Builder Bab 7 ==="
+            python sprint3/narrative_builder_sroi.py \
+              --outline ${W}/chapter_outline_bab7.json \
+              --handoff-b ${W}/handoff_b.json \
+              --canonical ${W}/canonical_${PROG}.json \
+              --output ${W} 2>&1 || true
+
+          elif [ ! -f "${W}/chapters_semantic_rest.json" ]; then
+            echo "=== FAILED AT: Narrative Builder Rest ==="
+            python sprint6/narrative_builder_rest.py \
+              --canonical ${W}/canonical_${PROG}.json \
+              --handoff-b ${W}/handoff_b.json \
+              --blueprint ${W}/report_blueprint.json \
+              --output ${W} 2>&1 || true
+
+          elif [ ! -f "${W}/qa_report.json" ]; then
+            echo "=== FAILED AT: QA Checker ==="
+            python sprint5/qa_checker.py \
+              --semantic ${W}/chapter_semantic_bab7.json \
+              --handoff-b ${W}/handoff_b.json \
+              --outline ${W}/chapter_outline_bab7.json \
+              --contract sprint0/render_contract_v1.json \
+              --output ${W} 2>&1 || true
+
+          else
+            echo "=== FAILED AT: Full Assembler ==="
+            node sprint8/full_assembler.js \
+              --semantic-dir ${W} \
+              --semantic-dir6 ${W} \
+              --canonical ${W}/canonical_${PROG}.json \
+              --output output/${PROG}/${PROG^^}_SROI_Report_Full.docx 2>&1 || true
+          fi
 
       # 8. Run batch refinement
       - name: Run batch refinement
