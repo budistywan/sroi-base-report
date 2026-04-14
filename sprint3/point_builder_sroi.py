@@ -211,7 +211,16 @@ nodes         = institutional.get("nodes", [])
 active_note   = institutional.get("note", "")
 
 # ── UNCERTAINTY FLAGS (untuk temuan kritis) ───────────────
-uncertainty_flags = canonical.get("uncertainty_flags", [])
+# Handle uncertainty_flags: list of dicts, list of strings, atau dict
+_uf_raw = canonical.get("uncertainty_flags", [])
+if isinstance(_uf_raw, dict):
+    _uf_raw = list(_uf_raw.values())
+elif not isinstance(_uf_raw, list):
+    _uf_raw = []
+uncertainty_flags = [
+    f if isinstance(f, dict) else {"description": str(f), "severity": "medium"}
+    for f in _uf_raw
+]
 high_flags = [f for f in uncertainty_flags if f.get("severity") == "high"]
 
 # ══════════════════════════════════════════════════════════
