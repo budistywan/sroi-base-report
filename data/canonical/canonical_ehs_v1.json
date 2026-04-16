@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "case_id": "ehs_2023_2025_v1",
   "created_at": "2026-04-13",
-  "last_updated": "2026-04-13",
+  "last_updated": "2026-04-16",
   "data_status": "populated_from_ontology_v3",
   "program_identity": {
     "program_code": "EHS",
@@ -325,7 +325,10 @@
       "description": "Melalui praktik bengkel dan layanan home service, siswa menghasilkan pendapatan dari jasa servis dan penjualan sparepart.",
       "measurement": "Nilai transaksi jasa dan sparepart per tahun (Rp)",
       "dimension": "economic",
-      "data_status": "under_confirmation"
+      "data_status": "under_confirmation",
+      "source_refs": [
+        "evidence_registry"
+      ]
     },
     {
       "outcome_id": "OC_EHS_ECO_02",
@@ -333,7 +336,10 @@
       "description": "Pelaksanaan program mendorong penggunaan dan penjualan pelumas Enduro dalam praktik servis di bengkel sekolah.",
       "measurement": "Volume dan nilai penjualan pelumas Enduro per tahun (Rp)",
       "dimension": "economic",
-      "data_status": "under_confirmation"
+      "data_status": "under_confirmation",
+      "source_refs": [
+        "evidence_registry"
+      ]
     },
     {
       "outcome_id": "OC_EHS_ECO_03",
@@ -342,7 +348,10 @@
       "measurement": "Omzet bengkel sekolah per tahun (Rp)",
       "dimension": "economic",
       "first_year": 2024,
-      "data_status": "under_confirmation"
+      "data_status": "under_confirmation",
+      "source_refs": [
+        "evidence_registry"
+      ]
     },
     {
       "outcome_id": "OC_EHS_SOC_01",
@@ -350,7 +359,10 @@
       "description": "Pengalaman praktik bengkel dan home service meningkatkan kesiapan siswa dalam menjalankan layanan jasa kepada pelanggan nyata.",
       "measurement": "Estimasi jumlah siswa dengan pengalaman layanan riil",
       "dimension": "social",
-      "data_status": "partial"
+      "data_status": "partial",
+      "source_refs": [
+        "evidence_registry"
+      ]
     },
     {
       "outcome_id": "OC_EHS_SOC_02",
@@ -359,7 +371,10 @@
       "measurement": "Jumlah lulusan terserap × estimasi nilai penghasilan setahun (Rp)",
       "dimension": "social",
       "first_year": 2024,
-      "data_status": "under_confirmation"
+      "data_status": "under_confirmation",
+      "source_refs": [
+        "evidence_registry"
+      ]
     },
     {
       "outcome_id": "OC_EHS_SOC_03",
@@ -367,7 +382,10 @@
       "description": "Aktivasi bengkel TEFA Enduro membentuk kultur praktik produktif di sekolah yang berkelanjutan.",
       "measurement": "Jumlah SMK dengan TEFA aktif",
       "dimension": "social",
-      "data_status": "partial"
+      "data_status": "partial",
+      "source_refs": [
+        "evidence_registry"
+      ]
     }
   ],
   "monetization": [
@@ -730,5 +748,5 @@
     "bab_8": "partial",
     "bab_9": "partial"
   },
-  "_submit_ts": "2026-04-13T06:06:01.268Z"
+  "_submit_ts": "2026-04-16T02:44:07.893Z"
 }
