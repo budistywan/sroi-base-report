@@ -2,11 +2,10 @@
   "schema_version": "1.0",
   "case_id": "psn_2023_2025_v1",
   "created_at": "2026-04-13",
-  "last_updated": "2026-04-13",
+  "last_updated": "2026-04-20",
   "program_identity": {
     "program_name": "Pertamina Sahabat Nelayan",
     "program_code": "PSN",
-    "tagline": "Penguatan Keandalan Aset Kapal dan Kapasitas Bengkel Nelayan melalui Pelatihan Mesin, Literasi Pelumasan, dan Kewirausahaan Perbengkelan",
     "period_start": 2023,
     "period_end": 2025,
     "nodes": [
@@ -20,17 +19,16 @@
       "PUC",
       "PUG"
     ],
-    "target_groups": [
-      "Kelompok Nelayan",
-      "Nelayan Anggota",
-      "Mekanik / Pengelola Bengkel"
-    ],
     "total_groups": 9,
     "estimated_beneficiaries": 270,
     "company": "PT Pertamina Lubricants",
-    "program_tagline": "Penguatan Keandalan Aset Kapal dan Kapasitas Bengkel Nelayan melalui Pelatihan Mesin, Literasi Pelumasan, dan Kewirausahaan Perbengkelan",
     "period_label": "2023–2025",
-    "target_group": "Kelompok Nelayan"
+    "program_tagline": "Penguatan Keandalan Aset Kapal dan Kapasitas Bengkel Nelayan melalui Pelatihan Mesin, Literasi Pelumasan, dan Kewirausahaan Perbengkelan",
+    "target_group": [
+      "Kelompok Nelayan",
+      "Nelayan Anggota",
+      "Mekanik / Pengelola Bengkel"
+    ]
   },
   "source_registry": [
     {
@@ -528,7 +526,7 @@
     },
     "DOWN": {
       "deadweight": 0.15,
-      "displacement": 0.0,
+      "displacement": 0,
       "attribution": 0.2,
       "drop_off": 0.05,
       "net_multiplier": 0.6,
@@ -537,7 +535,7 @@
     },
     "MAINT": {
       "deadweight": 0.1,
-      "displacement": 0.0,
+      "displacement": 0,
       "attribution": 0.2,
       "drop_off": 0.05,
       "net_multiplier": 0.65,
@@ -568,7 +566,7 @@
     "2025": {
       "series": "ORI027T3",
       "rate": 0.065,
-      "compound_factor": 1.0
+      "compound_factor": 1
     }
   },
   "sroi_metrics": {
@@ -594,25 +592,34 @@
     "bab_8": "partial",
     "bab_9": "partial"
   },
-  "activities": {
-    "2023": [
-      "Pelatihan teknis mesin kapal untuk kelompok nelayan mitra di 9 SR/PU",
-      "Sosialisasi product knowledge pelumas Pertamina kepada anggota kelompok",
-      "Penguatan layanan jasa bengkel dan jaringan sparepart lokal",
-      "Pelatihan kewirausahaan perbengkelan dasar"
-    ],
-    "2024": [
-      "Pelatihan lanjutan teknis mesin kapal — pendalaman diagnosis dan perbaikan",
-      "Aktivasi penjualan pelumas oleh kelompok nelayan mitra",
-      "Penguatan ekosistem layanan bengkel lokal",
-      "Pendampingan kewirausahaan bengkel"
-    ],
-    "2025": [
-      "Konsolidasi kapasitas perawatan mesin di 9 kelompok",
-      "Pengembangan bengkel kelompok sebagai simpul layanan komunitas maritim",
-      "Evaluasi dan penguatan program kewirausahaan bengkel"
-    ]
-  },
+  "activities": [
+    {
+      "year": 2023,
+      "items": [
+        "Pelatihan teknis mesin kapal untuk kelompok nelayan mitra di 9 SR/PU",
+        "Sosialisasi product knowledge pelumas Pertamina kepada anggota kelompok",
+        "Penguatan layanan jasa bengkel dan jaringan sparepart lokal",
+        "Pelatihan kewirausahaan perbengkelan dasar"
+      ]
+    },
+    {
+      "year": 2024,
+      "items": [
+        "Pelatihan lanjutan teknis mesin kapal — pendalaman diagnosis dan perbaikan",
+        "Aktivasi penjualan pelumas oleh kelompok nelayan mitra",
+        "Penguatan ekosistem layanan bengkel lokal",
+        "Pendampingan kewirausahaan bengkel"
+      ]
+    },
+    {
+      "year": 2025,
+      "items": [
+        "Konsolidasi kapasitas perawatan mesin di 9 kelompok",
+        "Pengembangan bengkel kelompok sebagai simpul layanan komunitas maritim",
+        "Evaluasi dan penguatan program kewirausahaan bengkel"
+      ]
+    }
+  ],
   "stakeholders": [
     {
       "stakeholder_id": "STK_PSN_01",
@@ -836,10 +843,5 @@
       "description": "Nelayan yang mendapat pelatihan teknis mesin kapal dan literasi pelumasan"
     }
   ],
-  "validation_notes": {
-    "beneficiary_alignment": {
-      "status": "harmonized",
-      "note": "program_identity.estimated_beneficiaries diselaraskan menjadi 270 agar konsisten dengan beneficiaries[0].count_estimate"
-    }
-  }
+  "_submit_ts": "2026-04-20T10:10:17.267Z"
 }
