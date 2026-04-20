@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "case_id": "esl_2023_2025_v1",
   "created_at": "2026-04-10",
-  "last_updated": "2026-04-10",
+  "last_updated": "2026-04-20",
   "program_identity": {
     "program_code": "ESL",
     "program_name": "Enduro Sahabat Lapas",
@@ -11,7 +11,12 @@
     "unit": "TJSL CSV",
     "period_start": 2023,
     "period_end": 2025,
-    "palette": "B — Marine Teal"
+    "palette": "B — Marine Teal",
+    "period_label": "2023–2025",
+    "target_group": [
+      "WBP (Warga Binaan Pemasyarakatan)",
+      "Eks-WBP (Milenial Motor)"
+    ]
   },
   "program_positioning": {
     "tjsl_pillar": "Pemberdayaan Masyarakat",
@@ -718,7 +723,7 @@
     },
     "REINT": {
       "deadweight": 0.2,
-      "displacement": 0.0,
+      "displacement": 0,
       "attribution": 0.15,
       "dropoff": 0.1,
       "net_multiplier": 0.55,
@@ -727,7 +732,7 @@
     },
     "CONF": {
       "deadweight": 0.2,
-      "displacement": 0.0,
+      "displacement": 0,
       "attribution": 0.2,
       "dropoff": 0.1,
       "net_multiplier": 0.5,
@@ -750,7 +755,7 @@
     },
     "2025": {
       "rate": 0.065,
-      "compound_factor": 1.0,
+      "compound_factor": 1,
       "series": "ORI027T3",
       "terminal_year": true
     }
@@ -759,7 +764,7 @@
     "calculated": {
       "total_investment_idr": 502460181,
       "total_gross_idr": 982191088,
-      "total_net_idr": 539366398.0,
+      "total_net_idr": 539366398,
       "total_net_compounded_idr": 570672410.79,
       "sroi_blended": 1.1358,
       "avg_fiksasi_pct": 45.09,
@@ -789,7 +794,7 @@
           "net": 203251867.3,
           "compounded": 203251867.3,
           "sroi_ratio": 1.0423,
-          "cf_applied": 1.0
+          "cf_applied": 1
         }
       ],
       "financial_tables": [
@@ -1348,7 +1353,7 @@
         },
         {
           "field": "net_LUB_2025",
-          "value": 21882960.0,
+          "value": 21882960,
           "formula": "gross_LUB_2025 × net_multiplier(0.54)",
           "inputs_used": [
             "gross_LUB_2025",
@@ -1388,7 +1393,7 @@
         },
         {
           "field": "net_REINT_2023",
-          "value": 134750000.0,
+          "value": 134750000,
           "formula": "gross_REINT_2023 × net_multiplier(0.55)",
           "inputs_used": [
             "gross_REINT_2023",
@@ -1398,7 +1403,7 @@
         },
         {
           "field": "net_REINT_2024",
-          "value": 134750000.0,
+          "value": 134750000,
           "formula": "gross_REINT_2024 × net_multiplier(0.55)",
           "inputs_used": [
             "gross_REINT_2024",
@@ -1408,7 +1413,7 @@
         },
         {
           "field": "net_REINT_2025",
-          "value": 154000000.0,
+          "value": 154000000,
           "formula": "gross_REINT_2025 × net_multiplier(0.55)",
           "inputs_used": [
             "gross_REINT_2025",
@@ -1418,7 +1423,7 @@
         },
         {
           "field": "net_CONF_2023",
-          "value": 10500000.0,
+          "value": 10500000,
           "formula": "gross_CONF_2023 × net_multiplier(0.5)",
           "inputs_used": [
             "gross_CONF_2023",
@@ -1428,7 +1433,7 @@
         },
         {
           "field": "net_CONF_2024",
-          "value": 10500000.0,
+          "value": 10500000,
           "formula": "gross_CONF_2024 × net_multiplier(0.5)",
           "inputs_used": [
             "gross_CONF_2024",
@@ -1438,7 +1443,7 @@
         },
         {
           "field": "net_CONF_2025",
-          "value": 12000000.0,
+          "value": 12000000,
           "formula": "gross_CONF_2025 × net_multiplier(0.5)",
           "inputs_used": [
             "gross_CONF_2025",
@@ -1788,21 +1793,7 @@
       "risk": "reliable",
       "notes": "Roadmap, value chain, dan kelembagaan tersedia cukup"
     },
-    "bab_7": {
-      "status": "strong",
-      "inputs": [
-        "activities",
-        "investment",
-        "outputs",
-        "outcomes",
-        "monetization",
-        "ddat_params",
-        "ori_rates",
-        "sroi_metrics"
-      ],
-      "risk": "reliable",
-      "notes": "Bab terkuat — semua data tersedia dari deck S10"
-    },
+    "bab_7": "strong",
     "bab_8": {
       "status": "partial",
       "inputs": [
@@ -1820,5 +1811,6 @@
       "risk": "reliable",
       "notes": "Kesimpulan bisa diturunkan dari SROI dan pembelajaran"
     }
-  }
+  },
+  "_submit_ts": "2026-04-20T11:33:50.814Z"
 }
